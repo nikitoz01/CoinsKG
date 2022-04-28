@@ -3,7 +3,8 @@ plugins {
     id ("com.android.application")
     id ("kotlin-android")
     id ("kotlin-kapt")
-    id ("androidx.navigation.safeargs.kotlin")
+    id("androidx.navigation.safeargs.kotlin")
+    id ("kotlin-parcelize")
 }
 
 android {
@@ -51,29 +52,50 @@ dependencies {
     implementation ("androidx.activity:activity-ktx:1.4.0")
 
     // Splashscreen
-    implementation ("androidx.core:core-splashscreen:1.0.0-beta01")
+    implementation ("androidx.core:core-splashscreen:1.0.0-beta02")
 
     // Fragment navigation
-    implementation ("androidx.navigation:navigation-fragment-ktx:2.4.1")
-    implementation ("androidx.navigation:navigation-ui-ktx:2.4.1")
-
+    implementation ("androidx.navigation:navigation-fragment-ktx:2.4.2")
+    implementation ("androidx.navigation:navigation-ui-ktx:2.4.2")
+//    implementation ("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.2")
     // Lifecycle and ViewModel
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.4.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.4.1")
 
     // Coroutines
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1-native-mt")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1-native-mt")
 
     // Retrofit and GSON
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-jackson:2.9.0")
+
+    // Glade
+    implementation ("com.github.bumptech.glide:glide:4.13.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.13.0")
 
     // Dagger2
     implementation ("com.google.dagger:dagger:2.41")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
     kapt ("com.google.dagger:dagger-compiler:2.41")
 
+    // Room
+    implementation("androidx.room:room-runtime:2.4.2")
+    annotationProcessor("androidx.room:room-compiler:2.4.2")
+    kapt("androidx.room:room-compiler:2.4.2")
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:2.4.2")
+    // optional - Paging 3 Integration
+    implementation("androidx.room:room-paging:2.4.2")
+
+    // WorkManager
+    implementation("androidx.work:work-runtime-ktx:2.7.1")
+
+
+    // Test
     testImplementation ("junit:junit:4.13.2")
     androidTestImplementation ("androidx.test.ext:junit:1.1.3")
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.4.0")

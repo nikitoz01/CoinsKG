@@ -1,0 +1,78 @@
+package kg.mobile.coins.ui.fragment.coin
+
+import android.content.Context
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import kg.mobile.coins.R
+import kg.mobile.coins.appComponent
+import kg.mobile.coins.dagger.vmfactory.MultiViewModelFactory
+import kg.mobile.coins.databinding.FragmentCoinBinding
+import javax.inject.Inject
+
+class CoinFragment : Fragment(R.layout.fragment_coin) {
+    private var _coinBinding: FragmentCoinBinding? = null
+
+    val coinBinding
+    get()= _coinBinding!!
+
+    @Inject
+    lateinit var factory: MultiViewModelFactory
+
+    private val coinViewModel: CoinViewModel by viewModels { factory }
+
+    private lateinit var adapter: CoinAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onAttach(context: Context) {
+        context.appComponent.inject(this)
+        super.onAttach(context)
+    }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        _coinBinding = FragmentCoinBinding.inflate(inflater,container,false)
+        val recyclerview = coinBinding.coinRecyclerView
+        recyclerview.layoutManager = LinearLayoutManager(activity)
+        adapter = CoinAdapter(requireContext()) {
+            findNavController().navigate(CoinFragmentDirections.actionCoinFragmentToCoinDetailFragment(it.id))
+        }
+        recyclerview.adapter = adapter
+        return coinBinding.root
+    }
+
+
+    override fun onDestroyView() {
+        _coinBinding = null
+        super.onDestroyView()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val categoryId: Int? = arguments?.let{(CoinFragmentArgs.fromBundle(it).categoryId)?.toInt()}
+        coinViewModel.getCoins(categoryId)
+        coinViewModel.coinLiveData.observe(viewLifecycleOwner) {
+            adapter.setList(it)
+        }
+    }
+
+    companion object {
+        fun newInstance(parentId: Int?): CoinFragment {
+            val bundle = Bundle()
+            bundle.putString("categoryId", parentId.toString())
+            val fragment = CoinFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
+}
