@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -24,10 +25,10 @@ import javax.inject.Inject
 
 class MainFragment: Fragment(R.layout.fragment_main) {
 
-    private var _mainBinding: FragmentMainBinding?=null
+    private var _mainBinding: FragmentMainBinding? = null
 
     val mainBinding
-    get() = _mainBinding!!
+        get() = _mainBinding!!
 
     @Inject
     lateinit var viewModelFactory: MultiViewModelFactory
@@ -44,7 +45,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
             override fun handleOnBackPressed() {
                 if (childFragmentManager.backStackEntryCount > 0) {
                     childFragmentManager.popBackStack()
-                    childFragmentManager.findFragmentById(R.id.coinFragmentContainerView)?.let{
+                    childFragmentManager.findFragmentById(R.id.coinFragmentContainerView)?.let {
                         (it as NavHostFragment).findNavController().popBackStack()
                     }
                 } else {
@@ -55,6 +56,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, backCallback)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -71,7 +73,8 @@ class MainFragment: Fragment(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainBinding.swipeRefreshLayout.setOnRefreshListener {
-            mainViewModel.retryLoad()
+            loadNewData()
+            mainViewModel.loadNewData()
         }
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -79,48 +82,64 @@ class MainFragment: Fragment(R.layout.fragment_main) {
                     mainViewModel.categoryStateFlow.collect { viewState ->
                         when (viewState) {
                             is State.Fail -> {
-                                mainViewModel.cancelLoad()
-                                mainBinding.swipeRefreshLayout.isRefreshing=false
+                                // mainViewModel.cancelLoad()
+                                mainBinding.swipeRefreshLayout.isRefreshing = false
                                 Log.e("NewCategories", " FAILLLLL ${viewState.exception}")
                             }
                             is State.Success -> {
                                 mainViewModel.insertCategories(viewState.value)
-                                mainViewModel.apply { updateSharedPref("categoryUpdateTime", viewState.value.maxByOrNull {it.updateTime}?.updateTime ?: return@apply )}
+
                                 checkLoad()
                             }
                             is State.Loading -> {
-                                Log.d("NewCategories", " LOADINGGG ") }
+                                Log.d("NewCategories", " LOADINGGG ")
+                            }
                         }
                     }
                 }
                 launch {
                     mainViewModel.coinStateFlow.collect { viewState ->
-                       when (viewState) {
-                           is State.Fail ->{
-                               mainViewModel.cancelLoad()
-                               mainBinding.swipeRefreshLayout.isRefreshing=false
-                               Log.e("NewCoins", "FAILLLLL ${viewState.exception}" )
-                           }
-                           is State.Success ->{
-                               mainViewModel.insertCoins(viewState.value)
-                               mainViewModel.apply { updateSharedPref("coinUpdateTime", viewState.value.maxByOrNull {it.updateTime}?.updateTime ?: return@apply )}
-                               checkLoad()
-                           }
-                           is State.Loading->{
-                               Log.d("NewsCoins", "LOADINGGG " )
-                           }
-                       }
+                        when (viewState) {
+                            is State.Fail -> {
+                                //  mainViewModel.cancelLoad()
+                                mainBinding.swipeRefreshLayout.isRefreshing = false
+                                Log.e("NewCoins", "FAILLLLL ${viewState.exception}")
+                            }
+                            is State.Success -> {
+                                mainViewModel.insertCoins(viewState.value)
+                                checkLoad()
+                            }
+                            is State.Loading -> {
+                                Log.d("NewsCoins", "LOADINGGG ")
+                            }
+                        }
                     }
                 }
             }
         }
+        loadNewData()
+    }
+
+    private fun loadNewData() {
+        mainViewModel.loadNewData()
+        mainBinding.swipeRefreshLayout.isRefreshing = true
     }
 
     private fun checkLoad() {
-        if(with(mainViewModel){
-                coinStateFlow.value is State.Success &&
-                        categoryStateFlow.value is State.Success
-            }) mainBinding.swipeRefreshLayout.isRefreshing = false
+        mainViewModel.apply {
+            if (with(this) {
+                    coinStateFlow.value is State.Success &&
+                            categoryStateFlow.value is State.Success
+                }) {
+                mainBinding.swipeRefreshLayout.isRefreshing = false
+                if ((this.categoryStateFlow.value as State.Success).value.isNotEmpty() ||
+                    (this.coinStateFlow.value as State.Success).value.isNotEmpty())
+                    parentFragmentManager.apply {
+                        commit {
+                            replace(R.id.main_fragment, MainFragment())
+                        }
+                    }
+            }
+        }
     }
-
 }

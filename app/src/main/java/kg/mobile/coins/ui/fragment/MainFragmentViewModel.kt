@@ -4,82 +4,86 @@ import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kg.mobile.coins.model.State
-import kg.mobile.coins.repository.GlideRepositoryImpl
-import kg.mobile.coins.repository.RestRepositoryImpl
-import kg.mobile.coins.repository.RoomRepositoryImpl
+import kg.mobile.coins.repository.ApiRepository
+import kg.mobile.coins.repository.GlideRepository
+import kg.mobile.coins.repository.RoomRepository
 import kg.mobile.coins.retrofit.dto.CategoryDto
-import kg.mobile.coins.retrofit.dto.CoinDto
+import kg.mobile.coins.room.model.Coin
+import kg.mobile.coins.util.categoryDtoToModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-class MainFragmentViewModel @Inject constructor(private val restRepository: RestRepositoryImpl,
-                                                private val roomRepository: RoomRepositoryImpl,
-                                                private val glideRepository: GlideRepositoryImpl,
+class MainFragmentViewModel @Inject constructor(private val apiRepository: ApiRepository,
+                                                private val roomRepository: RoomRepository,
+                                                private val glideRepository: GlideRepository,
                                                 private val sharedPreferences: SharedPreferences): ViewModel() {
     private val _categoryStateFlow: MutableStateFlow<State<List<CategoryDto>>?> = MutableStateFlow(null)
     val categoryStateFlow : StateFlow<State<List<CategoryDto>>?>
         get() = _categoryStateFlow
 
-    private val _coinStateFlow: MutableStateFlow<State<List<CoinDto>>?> = MutableStateFlow(null)
-    val coinStateFlow : StateFlow<State<List<CoinDto>>?>
+    private val _coinStateFlow: MutableStateFlow<State<List<Coin>>?> = MutableStateFlow(null)
+    val coinStateFlow : StateFlow<State<List<Coin>>?>
         get() = _coinStateFlow
 
 
-    private val categoryUpdateTime = sharedPreferences.getLong("categoryUpdateTime",0)
-    private val coinUpdateTime = sharedPreferences.getLong("coinUpdateTime",0)
+    private var categoryJob: Job? = null
+    private var coinJob :Job? = null
 
-    private var categoryJob = getAllCategories()
-    private var coinJob = getAllCoins()
-
-
-    fun cancelLoad(){
-        categoryJob.cancel()
-        coinJob.cancel()
+    fun loadNewData () {
+        categoryJob?.let {
+            if (it.isCompleted) categoryJob = getNewCategories()
+        } ?: run {
+            categoryJob = getNewCategories()
+        }
+        coinJob?.let {
+            if (it.isCompleted) coinJob = getNewCoins()
+        } ?: run {
+            coinJob = getNewCoins()
+        }
     }
 
-    fun  updateSharedPref (type: String, value:Long){
-        sharedPreferences.
-        edit().
-        putLong(type, value).
-        apply()
-    }
-
-    fun retryLoad () {
-        if (categoryJob.isCompleted) categoryJob = getAllCategories()
-        if (coinJob.isCompleted) coinJob = getAllCoins()
-    }
 
     fun insertCategories(categories : List<CategoryDto>){
         viewModelScope.launch(Dispatchers.IO) {
-            roomRepository.insertAllCategories(categories)
+            roomRepository.insertCategories(categories.map{it.categoryDtoToModel()})
+            categories.maxByOrNull {it.updateTime}?.let { updateSharedPref("categoryUpdateTime", it.updateTime )}
         }
     }
 
-    fun insertCoins(coins : List<CoinDto>){
-        viewModelScope.launch(Dispatchers.IO) {
-            roomRepository.insertAllCoins(coins)
-            glideRepository.loadImage()
-        }
+    fun insertCoins(coins : List<Coin>) = viewModelScope.launch(Dispatchers.IO) {
+        roomRepository.insertCoins(coins)
+        coins.maxByOrNull {it.updateTime}?.let { updateSharedPref("coinUpdateTime", it.updateTime )}
     }
 
-    private fun getAllCategories() = viewModelScope.launch {
-        restRepository.
+
+    private fun getNewCategories() = viewModelScope.launch {
+        val categoryUpdateTime = sharedPreferences.getLong("categoryUpdateTime",0)
+        apiRepository.
         getNewCategories(categoryUpdateTime).
         collect{
             _categoryStateFlow.value = it }
     }
 
 
-
-    private fun getAllCoins() =  viewModelScope.launch{
-        restRepository.
+    private fun getNewCoins() =  viewModelScope.launch(Dispatchers.IO){
+        val coinUpdateTime = sharedPreferences.getLong("coinUpdateTime",0)
+        apiRepository.
         getNewCoins(coinUpdateTime).
         collect{
-            _coinStateFlow.value = it }
+            _coinStateFlow.value = it
+        }
+    }
+
+    private fun  updateSharedPref (type: String, value:Long){
+        sharedPreferences.
+        edit().
+        putLong(type, value).
+        apply()
     }
 
 }

@@ -1,8 +1,9 @@
 package kg.mobile.coins.ui.fragment.coin
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kg.mobile.coins.databinding.ItemCoinBinding
@@ -12,12 +13,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class CoinAdapter (private val context: Context,
-                   private val itemClick: (Coin)->(Unit)): RecyclerView.Adapter<CoinAdapter.CoinViewHolder>() {
-    private  var coinsList: List<Coin> = listOf()
+class CoinAdapter(private val itemClick: (Coin)-> Unit ): PagingDataAdapter<Coin, CoinAdapter.CoinViewHolder>(CoinsDiffCallback()) {
 
     inner class CoinViewHolder (val binding: ItemCoinBinding): RecyclerView.ViewHolder(binding.root){
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinViewHolder {
@@ -26,7 +24,7 @@ class CoinAdapter (private val context: Context,
 
     override fun onBindViewHolder(holder: CoinViewHolder, position: Int) {
         with(holder){
-            with(coinsList[position]) {
+            with(getItem(position)?: return) {
                 binding.coinCardView.setOnClickListener{
                     itemClick.invoke(this)
                 }
@@ -34,7 +32,7 @@ class CoinAdapter (private val context: Context,
                 binding.coinDescriptionImageView.text=description
                 CoroutineScope(Dispatchers.Main).launch {
                     Glide
-                        .with(context)
+                        .with(binding.coinImageView.context)
                         .load(imagePath)
                         .error("")
                         .into(binding.coinImageView)
@@ -42,10 +40,16 @@ class CoinAdapter (private val context: Context,
                 }
             }
     }
-    override fun getItemCount() = coinsList.size
 
-    fun setList(list: List<Coin>) {
-        coinsList = list
-        notifyDataSetChanged()
+}
+
+class CoinsDiffCallback: DiffUtil.ItemCallback<Coin>(){
+    override fun areItemsTheSame(oldItem: Coin, newItem: Coin): Boolean {
+       return  oldItem.id == newItem.id
     }
+
+    override fun areContentsTheSame(oldItem: Coin, newItem: Coin): Boolean {
+        return oldItem == newItem
+    }
+
 }

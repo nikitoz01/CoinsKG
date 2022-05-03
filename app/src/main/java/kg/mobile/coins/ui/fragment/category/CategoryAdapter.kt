@@ -27,6 +27,7 @@ class CategoryAdapter(private val itemClick: ((Category)-> Unit)): RecyclerView.
                 }
                 }
             }
+
     }
     override fun getItemCount() = categoriesList.size
 

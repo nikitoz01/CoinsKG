@@ -9,18 +9,22 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CategoryDao{
-    @Query("SELECT * FROM category where isActive = 1")
+    @Query("SELECT * FROM category cat WHERE isActive = 1 ")
     fun getAllCategories(): Flow<List<Category>>
 
-    @Query("SELECT * FROM category where parentId = :parentId and isActive = 1")
+    @Query("SELECT * FROM category cat WHERE parentId = :parentId AND isActive = 1" +
+            " AND (EXISTS (SELECT * FROM coin coin WHERE cat.Id = coin.categoryId AND isActive = 1)" +
+            " OR EXISTS (SELECT * FROM category catChild WHERE cat.Id = catChild.parentId AND isActive = 1))")
     fun getCategoriesByParentId(parentId: Int): Flow<List<Category>>
 
-    @Query("SELECT * FROM category where parentId IS NULL and isActive = 1")
+    @Query("SELECT * FROM category cat WHERE parentId IS NULL AND isActive = 1" +
+            " AND (EXISTS (SELECT * FROM coin coin WHERE cat.Id = coin.categoryId AND isActive = 1)" +
+            " OR EXISTS (SELECT * FROM category catChild WHERE cat.Id = catChild.parentId AND isActive = 1))")
     fun getMainCategories(): Flow<List<Category>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(category: Category)
+    suspend fun insert(category: Category)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(categories: List<Category>)
+    suspend fun insert(categories: List<Category>)
 }

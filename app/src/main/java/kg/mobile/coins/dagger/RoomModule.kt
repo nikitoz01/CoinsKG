@@ -4,11 +4,10 @@ import android.content.Context
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
-import kg.mobile.coins.repository.RoomRepositoryImpl
+import kg.mobile.coins.repository.RoomRepository
 import kg.mobile.coins.room.CoinsDatabase
 import kg.mobile.coins.room.dao.CategoryDao
 import kg.mobile.coins.room.dao.CoinDao
-import kg.mobile.coins.room.dao.ImageDao
 import javax.inject.Scope
 import javax.inject.Singleton
 
@@ -30,7 +29,7 @@ class RoomModule  {
 
     @Provides
     @Singleton
-    fun provideRoomRepository(categoryDao:CategoryDao, coinDao: CoinDao, imageDao: ImageDao) = RoomRepositoryImpl(categoryDao, coinDao, imageDao)
+    fun provideRoomRepository(categoryDao:CategoryDao, coinDao: CoinDao) = RoomRepository(categoryDao, coinDao)
 
     @Provides
     @Singleton

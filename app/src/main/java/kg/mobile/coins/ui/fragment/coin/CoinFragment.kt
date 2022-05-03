@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kg.mobile.coins.R
 import kg.mobile.coins.appComponent
 import kg.mobile.coins.dagger.vmfactory.MultiViewModelFactory
 import kg.mobile.coins.databinding.FragmentCoinBinding
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CoinFragment : Fragment(R.layout.fragment_coin) {
@@ -44,8 +47,11 @@ class CoinFragment : Fragment(R.layout.fragment_coin) {
         _coinBinding = FragmentCoinBinding.inflate(inflater,container,false)
         val recyclerview = coinBinding.coinRecyclerView
         recyclerview.layoutManager = LinearLayoutManager(activity)
-        adapter = CoinAdapter(requireContext()) {
-            findNavController().navigate(CoinFragmentDirections.actionCoinFragmentToCoinDetailFragment(it.id))
+        adapter = CoinAdapter {
+            findNavController().navigate(
+                CoinFragmentDirections.
+                actionCoinFragmentToCoinDetailFragment(it.id)
+            )
         }
         recyclerview.adapter = adapter
         return coinBinding.root
@@ -59,17 +65,24 @@ class CoinFragment : Fragment(R.layout.fragment_coin) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val categoryId: Int? = arguments?.let{(CoinFragmentArgs.fromBundle(it).categoryId)?.toInt()}
+        val categoryId: Int? = arguments?.let {
+            CoinFragmentArgs.fromBundle(it).categoryId.run {
+                if (this.isNullOrBlank()) null
+                else this.toInt()
+            }
+        }
         coinViewModel.getCoins(categoryId)
-        coinViewModel.coinLiveData.observe(viewLifecycleOwner) {
-            adapter.setList(it)
+        lifecycleScope.launch {
+            coinViewModel.coinFlow?.collectLatest {
+                adapter.submitData(it)
+            }
         }
     }
 
     companion object {
-        fun newInstance(parentId: Int?): CoinFragment {
+        fun newInstance(categoryId: Int?): CoinFragment {
             val bundle = Bundle()
-            bundle.putString("categoryId", parentId.toString())
+            bundle.putString("categoryId",  categoryId?.toString() ?: "")
             val fragment = CoinFragment()
             fragment.arguments = bundle
             return fragment

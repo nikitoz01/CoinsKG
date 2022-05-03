@@ -72,22 +72,25 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
         return categoryBinding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val  parentId: Int? = arguments?.getString("parentId")?.toInt()
-        val  categoryName: String? = arguments?.getString("categoryName")
+        val parentId: Int? = arguments?.getString("parentId").run {
+            if (this.isNullOrEmpty()) null
+            else this.toInt()
+        }
+
+        val categoryName: String? = arguments?.getString("categoryName")
         categoryName?.let {
             (activity as AppCompatActivity).supportActionBar?.title = it
-        } ?: run {(activity as AppCompatActivity).supportActionBar?.title = "CoinsKG"}
+        } ?: run { (activity as AppCompatActivity).supportActionBar?.title = "CoinsKG" }
 
         categoryViewModel.getCategories(parentId)
 
         categoryViewModel.categoryLiveData.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) categoryBinding.categoryConstraintLayout.visibility = View.GONE
+            else categoryBinding.categoryConstraintLayout.visibility = View.VISIBLE
             adapter.setList(it)
         }
     }
@@ -95,7 +98,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
     companion object {
         fun newInstance(parentId: Int?, categoryName: String?): CategoryFragment {
             val bundle = Bundle()
-            bundle.putString("parentId", parentId.toString())
+            bundle.putString("parentId", parentId?.toString() ?: "")
             bundle.putString("categoryName", categoryName)
             val fragment = CategoryFragment()
             fragment.arguments = bundle

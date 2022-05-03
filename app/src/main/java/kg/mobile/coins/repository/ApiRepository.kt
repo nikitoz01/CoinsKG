@@ -5,11 +5,14 @@ import kg.mobile.coins.retrofit.CoinsRestApi
 import kg.mobile.coins.retrofit.dto.CategoryDto
 import kg.mobile.coins.retrofit.dto.CoinDto
 import kg.mobile.coins.retrofit.dto.ImageDto
+import kg.mobile.coins.room.model.Coin
+import kg.mobile.coins.util.coinDtoToModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class RestRepositoryImpl @Inject constructor(private val restApi: CoinsRestApi) {
+class ApiRepository @Inject constructor(private val restApi: CoinsRestApi,
+private val glideRepository: GlideRepository) {
      fun getNewCategories(updateTime: Long): Flow<State<List<CategoryDto>>> = flow {
         val state = try {
             emit(State.Loading)
@@ -20,15 +23,16 @@ class RestRepositoryImpl @Inject constructor(private val restApi: CoinsRestApi) 
         }
         emit(state)
     }
-    fun getNewCoins(updateTime: Long): Flow<State<List<CoinDto>>> = flow {
-        val state = try {
+    fun getNewCoins(updateTime: Long): Flow<State<List<Coin>>> = flow {
+        try {
             emit(State.Loading)
-            val response = restApi.getCoins(updateTime)
-            State.Success(response)
+            val coinsFromApi = restApi.getCoins(updateTime)
+            glideRepository.loadImage(coinsFromApi.map{it.coinDtoToModel()}).collect {
+                emit(State.Success(it))
+            }
         } catch (e: Exception) {
-            State.Fail(e)
+            emit(State.Fail(e))
         }
-        emit(state)
     }
 
     fun getNewImages(updateTime: Long): Flow<State<List<ImageDto>>> = flow {

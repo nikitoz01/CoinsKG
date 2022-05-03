@@ -7,8 +7,8 @@ import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.module.AppGlideModule
 import dagger.Module
 import dagger.Provides
-import kg.mobile.coins.repository.GlideRepositoryImpl
-import kg.mobile.coins.repository.RoomRepositoryImpl
+import kg.mobile.coins.repository.GlideRepository
+import kg.mobile.coins.repository.RoomRepository
 import javax.inject.Singleton
 
 
@@ -16,7 +16,7 @@ import javax.inject.Singleton
 class GlideDaggerModule {
     @Singleton
     @Provides
-    fun provideGlideRepository(context: Context, roomRepository: RoomRepositoryImpl) = GlideRepositoryImpl(context,roomRepository)
+    fun provideGlideRepository(context: Context, roomRepository: RoomRepository) = GlideRepository(context,roomRepository)
 }
 
 @GlideModule

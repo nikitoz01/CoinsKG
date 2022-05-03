@@ -77,6 +77,9 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.13.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.13.0")
 
+    //Paging3
+    implementation("androidx.paging:paging-runtime-ktx:3.1.1")
+
     // Dagger2
     implementation ("com.google.dagger:dagger:2.41")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
@@ -94,6 +97,8 @@ dependencies {
     // WorkManager
     implementation("androidx.work:work-runtime-ktx:2.7.1")
 
+    // Skeleton
+    implementation ("com.github.EudyContreras:Skeleton-Bones:v1.4.5")
 
     // Test
     testImplementation ("junit:junit:4.13.2")

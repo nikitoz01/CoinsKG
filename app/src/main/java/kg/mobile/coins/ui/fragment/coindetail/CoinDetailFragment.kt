@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import kg.mobile.coins.R
 import kg.mobile.coins.appComponent
 import kg.mobile.coins.dagger.vmfactory.MultiViewModelFactory
 import kg.mobile.coins.databinding.FragmentCoinDetailBinding
+import kg.mobile.coins.room.model.Coin
 import javax.inject.Inject
 
 class CoinDetailFragment : DialogFragment(R.layout.fragment_coin_detail) {
@@ -53,12 +55,23 @@ class CoinDetailFragment : DialogFragment(R.layout.fragment_coin_detail) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-         arguments?.let { showInfo(CoinDetailFragmentArgs.fromBundle(it).coinId) }
+        val coinId = arguments?.let { CoinDetailFragmentArgs.fromBundle(it).coinId }
+        coinDetailViewModel.getCoins(coinId!!)
+        coinDetailViewModel.coinDetailLiveData.observe(viewLifecycleOwner){
+            showInfo(it)
+        }
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun showInfo(coinId: Int){
-
+    private fun showInfo(coin: Coin){
+        coin.apply {
+            binding.nameTextView.text = name
+            Glide
+                .with(activity?.applicationContext!!)
+                .load(imagePath)
+                .error("")
+                .into(binding.coinDetailImageView)
+        }
     }
 
     companion object {

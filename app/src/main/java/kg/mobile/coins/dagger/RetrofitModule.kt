@@ -2,6 +2,8 @@ package kg.mobile.coins.dagger
 
 import dagger.Module
 import dagger.Provides
+import kg.mobile.coins.repository.ApiRepository
+import kg.mobile.coins.repository.GlideRepository
 import kg.mobile.coins.retrofit.CoinsRestApi
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -41,7 +43,9 @@ class RetrofitModule {
     @Singleton
     fun provideApiUrl() = "http://10.0.2.2:8080"
 
-
+    @Singleton
+    @Provides
+    fun restRepositoryProvide(restApi: CoinsRestApi, glideRepository: GlideRepository) = ApiRepository(restApi,glideRepository)
 }
 
 @Scope

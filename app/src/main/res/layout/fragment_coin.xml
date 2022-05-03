@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/yellow_300"
+        android:id="@+id/coinConstraintLayout"
         tools:context=".CoinFragment">
 
         <TextView
