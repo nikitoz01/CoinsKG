@@ -9,6 +9,14 @@ interface CoinDao {
     @Query("SELECT * FROM coin WHERE isActive = 1 and isImageLoaded = 1")
     fun getAllCoins(): Flow<List<Coin>>
 
+    @Query("SELECT * FROM coin " +
+    "WHERE isActive = 1 and isImageLoaded = 1 and " +
+    "(:searchBy = '' OR lower(name) LIKE '%' || lower(:searchBy) || '%') or " +
+            "(lower(mint) = lower(:searchBy)) " +
+    "ORDER BY name " +
+    "LIMIT :limit OFFSET :offset ")
+    suspend fun getCoins(searchBy: String,limit: Int, offset: Int): List<Coin>
+
 //    @Query("SELECT * FROM coin " +
 //            "WHERE categoryId IS NULL and isActive = 1 and isImageLoaded = 1")
 //    fun getMainCoins(): Flow<List<Coin>>

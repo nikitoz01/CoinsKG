@@ -1,4 +1,4 @@
-package kg.mobile.coins.ui.fragment.coin
+package kg.mobile.coins.ui.fragment.categorycoin.coin
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,6 +6,8 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import kg.mobile.coins.R
+import kg.mobile.coins.circularProgressDrawable
 import kg.mobile.coins.databinding.ItemCoinBinding
 import kg.mobile.coins.room.model.Coin
 import kotlinx.coroutines.CoroutineScope
@@ -13,7 +15,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class CoinAdapter(private val itemClick: (Coin)-> Unit ): PagingDataAdapter<Coin, CoinAdapter.CoinViewHolder>(CoinsDiffCallback()) {
+class CoinAdapter(private val itemClick: (Coin)-> Unit ): PagingDataAdapter<Coin, CoinAdapter.CoinViewHolder>(
+    CoinsDiffCallback()
+) {
 
     inner class CoinViewHolder (val binding: ItemCoinBinding): RecyclerView.ViewHolder(binding.root){
     }
@@ -29,12 +33,14 @@ class CoinAdapter(private val itemClick: (Coin)-> Unit ): PagingDataAdapter<Coin
                     itemClick.invoke(this)
                 }
                 binding.coinNameTextView.text=name
-                binding.coinDescriptionImageView.text=description
+                year?.let{binding.coinPeriodTextView.text=it}
+                estimate?.let{binding.coinEstimateTextView.text=it}
                 CoroutineScope(Dispatchers.Main).launch {
                     Glide
                         .with(binding.coinImageView.context)
                         .load(imagePath)
-                        .error("")
+                        .placeholder(binding.coinImageView.context.circularProgressDrawable())
+                        .error(R.drawable.no_image)
                         .into(binding.coinImageView)
                 }
                 }

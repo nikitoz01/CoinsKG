@@ -18,7 +18,7 @@ class GlideRepository @Inject constructor (private val context: Context,
                                            private val roomRepository: RoomRepository) {
     private val glideRestApiUrl = "http://10.0.2.2:8080/images?imageName="
 
-    suspend fun loadImage(coinsWithoutImage: List<Coin>): Flow<List<Coin>> = flow {
+    fun loadImage(coinsWithoutImage: List<Coin>): Flow<List<Coin>> = flow {
         coinsWithoutImage.apply {
             forEach {
                 Glide.with(context)
@@ -45,7 +45,9 @@ class GlideRepository @Inject constructor (private val context: Context,
                             it.imagePath = resource?.absolutePath
                             return false
                         }
-                    }).submit().get()
+                    })
+                    .submit().get()
+                println(Thread.currentThread())
             }
             emit(this)
         }

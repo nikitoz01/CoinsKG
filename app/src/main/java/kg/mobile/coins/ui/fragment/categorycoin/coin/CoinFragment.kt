@@ -1,4 +1,4 @@
-package kg.mobile.coins.ui.fragment.coin
+package kg.mobile.coins.ui.fragment.categorycoin.coin
 
 import android.content.Context
 import android.os.Bundle
@@ -14,6 +14,9 @@ import kg.mobile.coins.R
 import kg.mobile.coins.appComponent
 import kg.mobile.coins.dagger.vmfactory.MultiViewModelFactory
 import kg.mobile.coins.databinding.FragmentCoinBinding
+import kg.mobile.coins.ui.fragment.categorycoin.CategoryCoinFragmentDirections
+import kg.mobile.coins.ui.fragment.categorycoin.CategoryCoinViewModel
+import kg.mobile.coins.util.safeNavigate
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,6 +31,8 @@ class CoinFragment : Fragment(R.layout.fragment_coin) {
     lateinit var factory: MultiViewModelFactory
 
     private val coinViewModel: CoinViewModel by viewModels { factory }
+
+    private val parentViewModel: CategoryCoinViewModel by viewModels({requireParentFragment()})
 
     private lateinit var adapter: CoinAdapter
 
@@ -47,11 +52,13 @@ class CoinFragment : Fragment(R.layout.fragment_coin) {
         _coinBinding = FragmentCoinBinding.inflate(inflater,container,false)
         val recyclerview = coinBinding.coinRecyclerView
         recyclerview.layoutManager = LinearLayoutManager(activity)
-        adapter = CoinAdapter {
-            findNavController().navigate(
-                CoinFragmentDirections.
-                actionCoinFragmentToCoinDetailFragment(it.id)
-            )
+        adapter = CoinAdapter {coin ->
+            parentFragment?.let {
+                findNavController()
+                .safeNavigate(
+                    CategoryCoinFragmentDirections.actionCategoryCoinFragmentToCoinDetailFragment(coin.id)
+                )
+            }
         }
         recyclerview.adapter = adapter
         return coinBinding.root
@@ -65,17 +72,16 @@ class CoinFragment : Fragment(R.layout.fragment_coin) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val categoryId: Int? = arguments?.let {
-            CoinFragmentArgs.fromBundle(it).categoryId.run {
-                if (this.isNullOrBlank()) null
-                else this.toInt()
+
+        parentViewModel.getParentId().observe(viewLifecycleOwner) {
+            coinViewModel.getCoins(it)
+
+            lifecycleScope.launch {
+                coinViewModel.coinFlow!!.collectLatest {
+                    adapter.submitData(it)
+                }
             }
-        }
-        coinViewModel.getCoins(categoryId)
-        lifecycleScope.launch {
-            coinViewModel.coinFlow?.collectLatest {
-                adapter.submitData(it)
-            }
+
         }
     }
 

@@ -5,9 +5,10 @@ import android.content.Context
 import dagger.Component
 import kg.mobile.coins.dagger.vmfactory.ViewModelModule
 import kg.mobile.coins.ui.fragment.MainFragment
-import kg.mobile.coins.ui.fragment.category.CategoryFragment
-import kg.mobile.coins.ui.fragment.coin.CoinFragment
+import kg.mobile.coins.ui.fragment.categorycoin.category.CategoryFragment
+import kg.mobile.coins.ui.fragment.categorycoin.coin.CoinFragment
 import kg.mobile.coins.ui.fragment.coindetail.CoinDetailFragment
+import kg.mobile.coins.ui.fragment.coinsearch.CoinSearchFragment
 import javax.inject.Singleton
 
 interface AppComponentDependencies {
@@ -23,6 +24,7 @@ interface AppComponent {
     fun inject(categoryFragment: CategoryFragment)
     fun inject(coinFragment: CoinFragment)
     fun inject(coinDetailFragment: CoinDetailFragment)
+    fun inject(coinSearchFragment: CoinSearchFragment)
 
     @Component.Builder
     interface Builder {

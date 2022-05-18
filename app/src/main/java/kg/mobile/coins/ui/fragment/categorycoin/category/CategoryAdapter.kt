@@ -1,4 +1,4 @@
-package kg.mobile.coins.ui.fragment.category
+package kg.mobile.coins.ui.fragment.categorycoin.category
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -21,7 +21,7 @@ class CategoryAdapter(private val itemClick: ((Category)-> Unit)): RecyclerView.
         with(holder){
             with(categoriesList[position]) {
                 binding.categoryNameTextView.text=name
-                binding.categoryDescriptionTextView.text=description
+                binding.categoryPeriodTextView.text=period
                 binding.categoryCardView.setOnClickListener{
                     itemClick.invoke(this)
                 }

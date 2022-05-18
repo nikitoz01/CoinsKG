@@ -22,6 +22,7 @@ class MainFragmentViewModel @Inject constructor(private val apiRepository: ApiRe
                                                 private val roomRepository: RoomRepository,
                                                 private val glideRepository: GlideRepository,
                                                 private val sharedPreferences: SharedPreferences): ViewModel() {
+
     private val _categoryStateFlow: MutableStateFlow<State<List<CategoryDto>>?> = MutableStateFlow(null)
     val categoryStateFlow : StateFlow<State<List<CategoryDto>>?>
         get() = _categoryStateFlow
@@ -61,7 +62,7 @@ class MainFragmentViewModel @Inject constructor(private val apiRepository: ApiRe
     }
 
 
-    private fun getNewCategories() = viewModelScope.launch {
+    private fun getNewCategories() = viewModelScope.launch(Dispatchers.IO)  {
         val categoryUpdateTime = sharedPreferences.getLong("categoryUpdateTime",0)
         apiRepository.
         getNewCategories(categoryUpdateTime).

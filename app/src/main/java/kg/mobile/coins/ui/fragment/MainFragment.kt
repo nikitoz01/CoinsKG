@@ -4,11 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +20,8 @@ import kg.mobile.coins.appComponent
 import kg.mobile.coins.dagger.vmfactory.MultiViewModelFactory
 import kg.mobile.coins.databinding.FragmentMainBinding
 import kg.mobile.coins.model.State
+import kg.mobile.coins.ui.fragment.categorycoin.CategoryCoinFragmentDirections
+import kg.mobile.coins.ui.fragment.categorycoin.coin.CoinFragment
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,9 +35,17 @@ class MainFragment: Fragment(R.layout.fragment_main) {
     @Inject
     lateinit var viewModelFactory: MultiViewModelFactory
 
+    lateinit var defaultNavHost: NavHostFragment
 
     private val mainViewModel: MainFragmentViewModel by viewModels {
         viewModelFactory
+    }
+
+    private var isSearchActive = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onAttach(context: Context) {
@@ -43,18 +53,33 @@ class MainFragment: Fragment(R.layout.fragment_main) {
         super.onAttach(context)
         val backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (childFragmentManager.backStackEntryCount > 0) {
-                    childFragmentManager.popBackStack()
-                    childFragmentManager.findFragmentById(R.id.coinFragmentContainerView)?.let {
-                        (it as NavHostFragment).findNavController().popBackStack()
+                if (defaultNavHost.childFragmentManager.backStackEntryCount > 0) {
+                        defaultNavHost.findNavController().popBackStack()
+                  //  if(isSearchActive) defaultNavHost.findNavController().popBackStack()
+                        isSearchActive = false
                     }
-                } else {
+                else {
                     parentFragmentManager.popBackStack()
                     requireActivity().finish()
                 }
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, backCallback)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+            when (item.itemId) {
+                R.id.app_bar_search -> {
+                    if(!isSearchActive) {
+                        isSearchActive = true
+                        defaultNavHost.findNavController().navigate(
+                            CategoryCoinFragmentDirections.actionCategoryCoinFragmentToCoinSearchFragment()
+                        )
+                    }
+                    return true
+                }
+            }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onCreateView(
@@ -70,12 +95,23 @@ class MainFragment: Fragment(R.layout.fragment_main) {
         super.onDestroyView()
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        defaultNavHost = (childFragmentManager.
+        findFragmentById(R.id.defaultFragmentContainerView) as NavHostFragment)
+
+        val alreadyUpdated: Boolean = arguments?.let {
+            MainFragmentArgs.fromBundle(it).alreadyUpdated
+        }!!
+
         mainBinding.swipeRefreshLayout.setOnRefreshListener {
-            loadNewData()
+            if(!alreadyUpdated) loadNewData()
             mainViewModel.loadNewData()
         }
+
+
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
@@ -133,13 +169,26 @@ class MainFragment: Fragment(R.layout.fragment_main) {
                 }) {
                 mainBinding.swipeRefreshLayout.isRefreshing = false
                 if ((this.categoryStateFlow.value as State.Success).value.isNotEmpty() ||
-                    (this.coinStateFlow.value as State.Success).value.isNotEmpty())
-                    parentFragmentManager.apply {
-                        commit {
-                            replace(R.id.main_fragment, MainFragment())
-                        }
+                    (this.coinStateFlow.value as State.Success).value.isNotEmpty()){
+                    findNavController().apply {
+                        navigate(MainFragmentDirections.actionGlobalMainFragment(true))
                     }
+                }
             }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    companion object {
+        fun newInstance(alreadyUpdated: Boolean? = false): CoinFragment {
+            val bundle = Bundle()
+            bundle.putString("alreadyUpdated", alreadyUpdated.toString())
+            val fragment = CoinFragment()
+            fragment.arguments = bundle
+            return fragment
         }
     }
 }

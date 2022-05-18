@@ -5,9 +5,10 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 import kg.mobile.coins.ui.fragment.MainFragmentViewModel
-import kg.mobile.coins.ui.fragment.category.CategoryViewModel
-import kg.mobile.coins.ui.fragment.coin.CoinViewModel
+import kg.mobile.coins.ui.fragment.categorycoin.category.CategoryViewModel
+import kg.mobile.coins.ui.fragment.categorycoin.coin.CoinViewModel
 import kg.mobile.coins.ui.fragment.coindetail.CoinDetailViewModel
+import kg.mobile.coins.ui.fragment.coinsearch.CoinSearchViewModel
 
 @Module
 interface ViewModelModule {
@@ -26,4 +27,9 @@ interface ViewModelModule {
     @Binds
     @[IntoMap ViewModelKey(CoinDetailViewModel::class) ]
     fun bindCoinDetailViewModel(coinDetailViewModel: CoinDetailViewModel): ViewModel
+
+
+    @Binds
+    @[IntoMap ViewModelKey(CoinSearchViewModel::class) ]
+    fun bindCoinSearchViewModel(coinSearchViewModel: CoinSearchViewModel): ViewModel
 }

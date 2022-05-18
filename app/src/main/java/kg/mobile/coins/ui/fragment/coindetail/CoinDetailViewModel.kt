@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kg.mobile.coins.repository.RoomRepository
 import kg.mobile.coins.room.model.Coin
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,7 +15,7 @@ class CoinDetailViewModel @Inject constructor(private val roomRepository: RoomRe
         get() = _coinDetailLiveData
 
     fun getCoins(coinId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
                 coinDetailLiveData.postValue(roomRepository.
                 getCoinById(coinId))
         }

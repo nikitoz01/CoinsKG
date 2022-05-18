@@ -7,7 +7,8 @@ import kg.mobile.coins.room.dao.CategoryDao
 import kg.mobile.coins.room.dao.CoinDao
 import kg.mobile.coins.room.model.Category
 import kg.mobile.coins.room.model.Coin
-import kg.mobile.coins.ui.fragment.coin.paging.CoinPagingSource
+import kg.mobile.coins.ui.fragment.categorycoin.coin.paging.CoinPagingSource
+import kg.mobile.coins.ui.fragment.coinsearch.paging.CoinSearchPagingSource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -30,23 +31,37 @@ class RoomRepository @Inject constructor(
     fun getCategoriesByParentId(parentId: Int?) =
         parentId?.let { categoryDao.getCategoriesByParentId(parentId)} ?: run {categoryDao.getMainCategories()}
 
-    suspend fun getCoinsByCategoryId(categoryId: Int?, limit: Int, offset: Int)
+    private suspend fun getCoinsByCategoryId(categoryId: Int?, limit: Int, offset: Int)
     = categoryId?.let { coinDao.getCoinsByCategoryId(categoryId, limit, offset)} ?: run {coinDao.getMainCoins(limit, offset)}
 
-    suspend fun getPagedCoinsByCategoryId(categoryId: Int?): Flow<PagingData<Coin>> {
-        val loader = ::getCoinsByCategoryId
+    private suspend fun getCoins(searchBy: String, limit: Int, offset: Int) = coinDao.getCoins(searchBy, limit, offset)
+
+    fun getPagedCoinsByCategoryId(categoryId: Int?): Flow<PagingData<Coin>> {
         return Pager(
             config = PagingConfig(
                 pageSize = LOAD_SIZE,
                 enablePlaceholders = false,
                 initialLoadSize =LOAD_SIZE
             ),
-            pagingSourceFactory = {CoinPagingSource(loader, categoryId)}
+            pagingSourceFactory = {CoinPagingSource(categoryId,::getCoinsByCategoryId) }
+        ).flow
+    }
+
+    fun getPagedCoins(searchBy: String): Flow<PagingData<Coin>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = LOAD_SIZE,
+                enablePlaceholders = false,
+                initialLoadSize =LOAD_SIZE
+            ),
+            pagingSourceFactory = { CoinSearchPagingSource(searchBy,::getCoins) }
         ).flow
     }
 
 
     suspend fun getCoinById(coinId: Int) = coinDao.getById(coinId)
+    suspend fun getCategoryById(categoryId: Int) = categoryDao.getById(categoryId)
+
 
     companion object{
         const val LOAD_SIZE = 10
