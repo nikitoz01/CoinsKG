@@ -11,11 +11,29 @@ interface CoinDao {
 
     @Query("SELECT * FROM coin " +
     "WHERE isActive = 1 and isImageLoaded = 1 and " +
-    "(:searchBy = '' OR lower(name) LIKE '%' || lower(:searchBy) || '%') or " +
-            "(lower(mint) = lower(:searchBy)) " +
+    "((:searchBy = '' OR lower(name) LIKE '%' || lower(:searchBy) || '%') or " +
+            "(lower(mint) = lower(:searchBy)))  " +
     "ORDER BY name " +
     "LIMIT :limit OFFSET :offset ")
     suspend fun getCoins(searchBy: String,limit: Int, offset: Int): List<Coin>
+
+    @Query("SELECT * FROM coin " +
+            "WHERE isActive = 1 and isImageLoaded = 1 and " +
+            "((:searchBy = '' OR lower(name) LIKE '%' || lower(:searchBy) || '%') or " +
+            "(lower(mint) = lower(:searchBy)))  and " +
+            "isFavorite = 1 " +
+            "ORDER BY name " +
+            "LIMIT :limit OFFSET :offset ")
+    suspend fun getFavoriteCoins(searchBy: String,limit: Int, offset: Int): List<Coin>
+
+    @Query("SELECT * FROM coin " +
+            "WHERE isActive = 1 and isImageLoaded = 1 and " +
+            "((:searchBy = '' OR lower(name) LIKE '%' || lower(:searchBy) || '%') or " +
+            "(lower(mint) = lower(:searchBy)))  and " +
+            "isInCollection = 1 " +
+            "ORDER BY name " +
+            "LIMIT :limit OFFSET :offset ")
+    suspend fun getInCollectionCoins(searchBy: String,limit: Int, offset: Int): List<Coin>
 
 //    @Query("SELECT * FROM coin " +
 //            "WHERE categoryId IS NULL and isActive = 1 and isImageLoaded = 1")
@@ -52,4 +70,8 @@ interface CoinDao {
 
     @Update()
     suspend fun update(coins: List<Coin>)
+
+    @Query("Select EXISTS(Select * from Coin) ")
+    suspend fun isAnyCoinsExist(): Boolean
+
 }

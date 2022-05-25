@@ -47,7 +47,7 @@ class GlideRepository @Inject constructor (private val context: Context,
                         }
                     })
                     .submit().get()
-                println(Thread.currentThread())
+                //println(Thread.currentThread())
             }
             emit(this)
         }

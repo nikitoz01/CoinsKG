@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/default_nav_graph"
     app:startDestination="@id/categoryCoinFragment">
 
@@ -72,4 +73,18 @@
             app:nullable="true"
             android:defaultValue="@null" />
     </action>
+
+    <action android:id="@+id/action_global_AboutApp"
+        app:destination="@id/aboutAppFragment"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right">
+    </action>
+    <fragment
+        android:id="@+id/aboutAppFragment"
+        android:name="kg.mobile.coins.ui.fragment.AboutAppFragment"
+        android:label="fragment_about_app"
+        tools:layout="@layout/fragment_about_app" />
+
 </navigation>

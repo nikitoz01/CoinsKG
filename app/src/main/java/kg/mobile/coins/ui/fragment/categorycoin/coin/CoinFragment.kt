@@ -52,14 +52,20 @@ class CoinFragment : Fragment(R.layout.fragment_coin) {
         _coinBinding = FragmentCoinBinding.inflate(inflater,container,false)
         val recyclerview = coinBinding.coinRecyclerView
         recyclerview.layoutManager = LinearLayoutManager(activity)
-        adapter = CoinAdapter {coin ->
-            parentFragment?.let {
-                findNavController()
-                .safeNavigate(
-                    CategoryCoinFragmentDirections.actionCategoryCoinFragmentToCoinDetailFragment(coin.id)
-                )
+        adapter = CoinAdapter ({coin ->
+                parentFragment?.let {
+                    findNavController()
+                        .safeNavigate(
+                            CategoryCoinFragmentDirections.actionCategoryCoinFragmentToCoinDetailFragment(
+                                coin.id
+                            )
+                        )
+                }
+            },
+            {coin ->
+                coinViewModel.updateCoin(coin)
             }
-        }
+        )
         recyclerview.adapter = adapter
         return coinBinding.root
     }

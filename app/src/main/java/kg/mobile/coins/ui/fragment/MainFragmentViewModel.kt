@@ -1,6 +1,7 @@
 package kg.mobile.coins.ui.fragment
 
 import android.content.SharedPreferences
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kg.mobile.coins.model.State
@@ -85,6 +86,13 @@ class MainFragmentViewModel @Inject constructor(private val apiRepository: ApiRe
         edit().
         putLong(type, value).
         apply()
+    }
+
+    val existsCheck = MutableLiveData<Boolean>()
+
+    fun isAnyCoinsExists() = viewModelScope.launch(Dispatchers.IO) {
+        existsCheck.postValue(roomRepository.
+        isAnyCoinsExist())
     }
 
 }

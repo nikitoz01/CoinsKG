@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -24,7 +23,7 @@ import javax.inject.Inject
 class CoinSearchFragment: Fragment(R.layout.fragment_coin_search) {
 
     private var _coinSearchBinding: FragmentCoinSearchBinding? = null
-    val coinSearchBinding
+    private val coinSearchBinding
     get()=_coinSearchBinding!!
 
     @Inject
@@ -35,6 +34,9 @@ class CoinSearchFragment: Fragment(R.layout.fragment_coin_search) {
     private val coinSearchViewModel: CoinSearchViewModel by viewModels {
         factory
     }
+
+    private var currentMode = 0
+    private var currentQuery: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -47,21 +49,23 @@ class CoinSearchFragment: Fragment(R.layout.fragment_coin_search) {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.findItem(R.id.app_bar_info).isVisible = false
+
         menu.findItem(R.id.app_bar_search).apply {
             (actionView as androidx.appcompat.widget.SearchView).apply {
-            setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    hideKeyboard()
-                    println("submit")
-                    return true
-                }
+                setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        hideKeyboard()
+                        println("submit")
+                        return true
+                    }
 
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    coinSearchViewModel.setSearchBy(newText + "")
-                    return true
-                }
-
-            })
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        currentQuery = newText
+                        coinSearchViewModel.setSearchBy(newText + "", currentMode)
+                        return true
+                    }
+                })
 //            setOnSearchClickListener {
 //                println("search")
 //            }
@@ -82,6 +86,7 @@ class CoinSearchFragment: Fragment(R.layout.fragment_coin_search) {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+
     private fun hideKeyboard(){
         val inputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
@@ -94,13 +99,15 @@ class CoinSearchFragment: Fragment(R.layout.fragment_coin_search) {
         _coinSearchBinding = FragmentCoinSearchBinding.inflate(inflater,container,false)
         val recyclerview = coinSearchBinding.coinSearchRecyclerView
         recyclerview.layoutManager = LinearLayoutManager(activity)
-        adapter = CoinAdapter {
+        adapter = CoinAdapter ( { coin ->
                 findNavController().safeNavigate(CoinSearchFragmentDirections.
-                actionCoinSearchFragmentToCoinDetailFragment(it.id))
-        }
+                actionCoinSearchFragmentToCoinDetailFragment(coin.id))
+            },
+            {coin -> coinSearchViewModel.updateCoin(coin) }
+        )
+
         recyclerview.adapter = adapter
 
-        (activity as AppCompatActivity).supportActionBar
 
         return coinSearchBinding.root
     }
@@ -109,6 +116,14 @@ class CoinSearchFragment: Fragment(R.layout.fragment_coin_search) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        (activity as AppCompatActivity).supportActionBar?.title = "Поиск"
+        coinSearchBinding.chipGroup.setOnCheckedStateChangeListener { _, i ->
+            when (i[0]) {
+                coinSearchBinding.firstChip.id ->  currentMode = 0
+                coinSearchBinding.secondChip.id -> currentMode = 1
+                coinSearchBinding.thirdChip.id -> currentMode = 2
+            }
+            coinSearchViewModel.setSearchBy(currentQuery + "", currentMode)
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             coinSearchViewModel.coinSearchFlow.collectLatest { pagingData ->

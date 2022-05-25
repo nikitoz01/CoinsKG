@@ -6,12 +6,29 @@
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".ui.fragment.MainFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/loadStateFrameLayout"
+        android:visibility="gone">
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/load_state" />
+    </FrameLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background">
+        android:background="@color/background"
+        android:id="@+id/mainScrollView"
+        android:visibility="gone">
 
         <androidx.fragment.app.FragmentContainerView
             android:layout_width="match_parent"
@@ -21,6 +38,7 @@
             app:navGraph="@navigation/def_nav_graph">
         </androidx.fragment.app.FragmentContainerView>
 
-
     </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

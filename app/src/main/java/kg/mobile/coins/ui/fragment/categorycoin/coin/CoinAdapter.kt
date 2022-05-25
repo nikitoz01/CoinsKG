@@ -1,7 +1,10 @@
 package kg.mobile.coins.ui.fragment.categorycoin.coin
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageButton
+import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class CoinAdapter(private val itemClick: (Coin)-> Unit ): PagingDataAdapter<Coin, CoinAdapter.CoinViewHolder>(
+class CoinAdapter(private val itemClick:(Coin) -> Unit, private val updateCoin:(Coin) -> Unit ): PagingDataAdapter<Coin, CoinAdapter.CoinViewHolder>(
     CoinsDiffCallback()
 ) {
 
@@ -27,14 +30,14 @@ class CoinAdapter(private val itemClick: (Coin)-> Unit ): PagingDataAdapter<Coin
     }
 
     override fun onBindViewHolder(holder: CoinViewHolder, position: Int) {
-        with(holder){
-            with(getItem(position)?: return) {
-                binding.coinCardView.setOnClickListener{
+        with(holder) {
+            with(getItem(position) ?: return) {
+                binding.coinCardView.setOnClickListener {
                     itemClick.invoke(this)
                 }
-                binding.coinNameTextView.text=name
-                year?.let{binding.coinPeriodTextView.text=it}
-                estimate?.let{binding.coinEstimateTextView.text=it}
+                binding.coinNameTextView.text = name
+                year?.let { binding.coinPeriodTextView.text = it }
+                estimate?.let { binding.coinEstimateTextView.text = it }
                 CoroutineScope(Dispatchers.Main).launch {
                     Glide
                         .with(binding.coinImageView.context)
@@ -43,10 +46,46 @@ class CoinAdapter(private val itemClick: (Coin)-> Unit ): PagingDataAdapter<Coin
                         .error(R.drawable.no_image)
                         .into(binding.coinImageView)
                 }
+
+                binding.favoriteCoinButton.apply {
+                    setOnClickListener {
+                        isFavorite = !isFavorite
+                        checkToggle(this, isFavorite, R.drawable.ic_star_outline, R.drawable.ic_star)
+                        updateCoin.invoke(this@with)
+                    }
+                    checkToggle(this, isFavorite, R.drawable.ic_star_outline, R.drawable.ic_star)
+                }
+                binding.inCollectionCoinButton.apply {
+                    setOnClickListener {
+                        isInCollection = !isInCollection
+                        checkToggle(this, isInCollection, R.drawable.ic_chest_outline, R.drawable.ic_chest)
+                        updateCoin.invoke(this@with)
+                    }
+                    checkToggle(this, isInCollection, R.drawable.ic_chest_outline, R.drawable.ic_chest)
                 }
             }
+        }
     }
 
+    private fun checkToggle(imageButton: ImageButton, check: Boolean, resOutlineId: Int, resId: Int){
+        if (check) {
+            setImageButtonIcon(imageButton, resId, R.color.active)
+        } else {
+            setImageButtonIcon(imageButton, resOutlineId, R.color.inactive)
+        }
+    }
+
+    private fun setImageButtonIcon(imageButton: ImageButton, resId: Int, colorId: Int) {
+        imageButton.apply {
+            setImageResource(resId)
+            imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    context,
+                    colorId
+                )
+            )
+        }
+    }
 }
 
 class CoinsDiffCallback: DiffUtil.ItemCallback<Coin>(){

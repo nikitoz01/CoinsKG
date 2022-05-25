@@ -123,11 +123,17 @@ class CoinDetailFragment : DialogFragment(R.layout.fragment_coin_detail) {
     }
 
     private fun  setInfo(view: TextView, info: String?){
-        info?.let{view.text = info} ?: run { view.visibility = View.GONE }
+        info?.let{
+            view.text = info
+            view.visibility = View.VISIBLE
+        }
     }
 
     private fun  setInfo(view: TextView, container: LinearLayout, info: String?){
-        info?.let{view.text = info} ?: run { container.visibility = View.GONE }
+        info?.let{
+            view.text = info
+            container.visibility = View.VISIBLE
+        }
     }
 
     companion object {

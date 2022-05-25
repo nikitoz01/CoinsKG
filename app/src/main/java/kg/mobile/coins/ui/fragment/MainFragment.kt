@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -79,6 +80,14 @@ class MainFragment: Fragment(R.layout.fragment_main) {
                     return true
                 }
             }
+        when (item.itemId) {
+            R.id.app_bar_info -> {
+                defaultNavHost.findNavController().navigate(
+                        CategoryCoinFragmentDirections.actionGlobalAboutApp()
+                )
+                return true
+            }
+        }
         return super.onOptionsItemSelected(item)
     }
 
@@ -106,11 +115,21 @@ class MainFragment: Fragment(R.layout.fragment_main) {
             MainFragmentArgs.fromBundle(it).alreadyUpdated
         }!!
 
+        mainViewModel.isAnyCoinsExists()
+
         mainBinding.swipeRefreshLayout.setOnRefreshListener {
-            if(!alreadyUpdated) loadNewData()
-            mainViewModel.loadNewData()
+            loadNewData()
         }
 
+        mainViewModel.existsCheck.observe(viewLifecycleOwner){
+            if (it) {
+                (activity as AppCompatActivity).supportActionBar?.show()
+                mainBinding.mainScrollView.visibility = View.VISIBLE
+            }
+            else {
+                mainBinding.loadStateFrameLayout.visibility = View.VISIBLE
+            }
+        }
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -153,7 +172,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
                 }
             }
         }
-        loadNewData()
+        if (!alreadyUpdated) loadNewData()
     }
 
     private fun loadNewData() {

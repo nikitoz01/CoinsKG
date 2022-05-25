@@ -35,6 +35,10 @@ class RoomRepository @Inject constructor(
     = categoryId?.let { coinDao.getCoinsByCategoryId(categoryId, limit, offset)} ?: run {coinDao.getMainCoins(limit, offset)}
 
     private suspend fun getCoins(searchBy: String, limit: Int, offset: Int) = coinDao.getCoins(searchBy, limit, offset)
+    private suspend fun getFavoriteCoins(searchBy: String, limit: Int, offset: Int) = coinDao.getFavoriteCoins(searchBy, limit, offset)
+    private suspend fun getInCollectionCoins(searchBy: String, limit: Int, offset: Int) = coinDao.getInCollectionCoins(searchBy, limit, offset)
+
+    suspend fun isAnyCoinsExist() = coinDao.isAnyCoinsExist()
 
     fun getPagedCoinsByCategoryId(categoryId: Int?): Flow<PagingData<Coin>> {
         return Pager(
@@ -47,14 +51,23 @@ class RoomRepository @Inject constructor(
         ).flow
     }
 
-    fun getPagedCoins(searchBy: String): Flow<PagingData<Coin>> {
+    //mode = 0 - ALL
+    //mode = 1 - Favorite
+    //mode = 2 - inCollection
+    fun getPagedCoins(searchBy: String, mode: Int = 0): Flow<PagingData<Coin>> {
+        val getCoins = when(mode){
+            0 -> ::getCoins
+            1 -> ::getFavoriteCoins
+            2 -> ::getInCollectionCoins
+            else -> {::getCoins}
+        }
         return Pager(
             config = PagingConfig(
                 pageSize = LOAD_SIZE,
                 enablePlaceholders = false,
                 initialLoadSize =LOAD_SIZE
             ),
-            pagingSourceFactory = { CoinSearchPagingSource(searchBy,::getCoins) }
+            pagingSourceFactory = { CoinSearchPagingSource(searchBy,getCoins) }
         ).flow
     }
 

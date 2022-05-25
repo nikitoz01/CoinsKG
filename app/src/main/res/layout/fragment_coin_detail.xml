@@ -73,7 +73,8 @@
         android:id="@+id/zenoContainer"
         android:background="@drawable/bottom_line"
         android:paddingTop="5dp"
-        android:paddingBottom="5dp">
+        android:paddingBottom="5dp"
+        android:visibility="gone">
     <TextView
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -100,7 +101,8 @@
         android:id="@+id/yearContainer"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:background="@drawable/bottom_line">
+        android:background="@drawable/bottom_line"
+        android:visibility="gone">
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -127,7 +129,8 @@
             android:id="@+id/rarityContainer"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:background="@drawable/bottom_line">
+            android:background="@drawable/bottom_line"
+            android:visibility="gone">
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -154,7 +157,8 @@
             android:id="@+id/estimateContainer"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:background="@drawable/bottom_line">
+            android:background="@drawable/bottom_line"
+            android:visibility="gone">
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -188,7 +192,8 @@
         android:id="@+id/sizeContainer"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:background="@drawable/bottom_line">
+        android:background="@drawable/bottom_line"
+        android:visibility="gone">
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -215,7 +220,8 @@
         android:id="@+id/weightContainer"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:background="@drawable/bottom_line">
+        android:background="@drawable/bottom_line"
+        android:visibility="gone">
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -241,7 +247,8 @@
             android:id="@+id/denominationContainer"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:background="@drawable/bottom_line">
+            android:background="@drawable/bottom_line"
+            android:visibility="gone">
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -268,7 +275,8 @@
             android:id="@+id/metalContainer"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:background="@drawable/bottom_line">
+            android:background="@drawable/bottom_line"
+            android:visibility="gone">
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -295,7 +303,8 @@
         android:id="@+id/mintContainer"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:background="@drawable/bottom_line">
+        android:background="@drawable/bottom_line"
+        android:visibility="gone">
         <TextView
             android:layout_weight="1"
             android:layout_width="0dp"

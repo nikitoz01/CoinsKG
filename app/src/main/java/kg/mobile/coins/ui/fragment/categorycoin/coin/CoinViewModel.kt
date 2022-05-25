@@ -6,7 +6,9 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import kg.mobile.coins.repository.RoomRepository
 import kg.mobile.coins.room.model.Coin
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CoinViewModel @Inject constructor(private val repository: RoomRepository) :ViewModel(){
@@ -18,4 +20,7 @@ class CoinViewModel @Inject constructor(private val repository: RoomRepository) 
         getPagedCoinsByCategoryId(categoryId).cachedIn(viewModelScope)
     }
 
+    fun updateCoin(coin: Coin) = viewModelScope.launch(Dispatchers.IO) {
+        repository.updateCoin(coin)
+    }
 }

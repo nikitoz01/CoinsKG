@@ -28,5 +28,7 @@ data class Coin(
     var updateTime: Long,
     var isActive: Boolean,
     var isImageLoaded: Boolean = false,
-    var imagePath: String? = ""
+    var imagePath: String? = "",
+    var isFavorite: Boolean = false,
+    var isInCollection: Boolean = false
 )
