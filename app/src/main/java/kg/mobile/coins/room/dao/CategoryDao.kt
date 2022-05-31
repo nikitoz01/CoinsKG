@@ -1,9 +1,6 @@
 package kg.mobile.coins.room.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import kg.mobile.coins.room.model.Category
 import kotlinx.coroutines.flow.Flow
 
@@ -30,4 +27,16 @@ interface CategoryDao{
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(categories: List<Category>)
+
+    @Update()
+    suspend fun update(category: Category)
+
+    @Update()
+    suspend fun update(categories: List<Category>)
+
+    @Delete()
+    suspend fun delete(category: Category)
+
+    @Delete()
+    suspend fun delete(categories: List<Category>)
 }

@@ -149,6 +149,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
                             is State.Loading -> {
                                 Log.d("NewCategories", " LOADINGGG ")
                             }
+                            else -> {}
                         }
                     }
                 }
@@ -167,6 +168,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
                             is State.Loading -> {
                                 Log.d("NewsCoins", "LOADINGGG ")
                             }
+                            else -> {}
                         }
                     }
                 }

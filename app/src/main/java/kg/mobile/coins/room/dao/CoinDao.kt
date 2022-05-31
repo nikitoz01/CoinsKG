@@ -71,6 +71,12 @@ interface CoinDao {
     @Update()
     suspend fun update(coins: List<Coin>)
 
+    @Delete()
+    suspend fun delete(coin: Coin)
+
+    @Delete()
+    suspend fun delete(coins: List<Coin>)
+
     @Query("Select EXISTS(Select * from Coin) ")
     suspend fun isAnyCoinsExist(): Boolean
 
