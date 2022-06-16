@@ -117,11 +117,11 @@ class CoinSearchFragment: Fragment(R.layout.fragment_coin_search) {
         super.onViewCreated(view, savedInstanceState)
 //        (activity as AppCompatActivity).supportActionBar?.title = "Поиск"
         coinSearchBinding.chipGroup.setOnCheckedStateChangeListener { _, i ->
-            when (i[0]) {
+            if (i.isNotEmpty()) when (i[0]) {
                 coinSearchBinding.firstChip.id ->  currentMode = 0
                 coinSearchBinding.secondChip.id -> currentMode = 1
                 coinSearchBinding.thirdChip.id -> currentMode = 2
-            }
+            } else coinSearchBinding.chipGroup.check(coinSearchBinding.firstChip.id)
             coinSearchViewModel.setSearchBy(currentQuery + "", currentMode)
         }
 

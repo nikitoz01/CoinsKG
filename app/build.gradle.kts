@@ -42,9 +42,9 @@ android {
 dependencies {
 
     // Android
-    implementation ("androidx.core:core-ktx:1.7.0")
-    implementation ("androidx.appcompat:appcompat:1.4.1")
-    implementation ("com.google.android.material:material:1.6.0")
+    implementation ("androidx.core:core-ktx:1.8.0")
+    implementation ("androidx.appcompat:appcompat:1.4.2")
+    implementation ("com.google.android.material:material:1.6.1")
     implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
 
     // Fragment and activity
@@ -52,7 +52,7 @@ dependencies {
     implementation ("androidx.activity:activity-ktx:1.4.0")
 
     // Splashscreen
-    implementation ("androidx.core:core-splashscreen:1.0.0-beta02")
+    implementation ("androidx.core:core-splashscreen:1.0.0-rc01")
 
     // Fragment navigation
     implementation ("androidx.navigation:navigation-fragment-ktx:2.4.2")
@@ -113,7 +113,7 @@ dependencies {
 
     testImplementation ("junit:junit:4.13.2")
     // Optional -- Robolectric environment
-    testImplementation ("androidx.test:core:1.4.1-alpha06")
+    testImplementation ("androidx.test:core:1.4.1-alpha07")
     // Optional -- Mockito framework
     testImplementation( "org.mockito:mockito-core:4.6.0")
     // Optional -- mockito-kotlin

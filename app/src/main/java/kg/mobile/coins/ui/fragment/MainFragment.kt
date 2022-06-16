@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -160,6 +161,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
                                 //  mainViewModel.cancelLoad()
                                 mainBinding.swipeRefreshLayout.isRefreshing = false
                                 Log.e("NewCoins", "FAILLLLL ${viewState.exception}")
+                                Toast.makeText(context,"Ошибка загрузки, повторите попытку позже",Toast.LENGTH_LONG).show()
                             }
                             is State.Success -> {
                                 mainViewModel.insertCoins(viewState.value)
