@@ -106,7 +106,7 @@
             android:layout_margin="10dp"
             android:scaleType="centerInside"
             android:id="@+id/coinImageView"
-            android:background="@color/gray_200">
+            android:contentDescription="coin image">
         </ImageView>
 
 

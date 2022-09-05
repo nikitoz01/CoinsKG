@@ -50,40 +50,35 @@ class CoinAdapter(private val itemClick:(Coin) -> Unit, private val updateCoin:(
                 binding.favoriteCoinButton.apply {
                     setOnClickListener {
                         isFavorite = !isFavorite
-                        checkToggle(this, isFavorite, R.drawable.ic_star_outline, R.drawable.ic_star)
+                        checkToggle(this, isFavorite, R.drawable.ic_star)
                         updateCoin.invoke(this@with)
                     }
-                    checkToggle(this, isFavorite, R.drawable.ic_star_outline, R.drawable.ic_star)
+                    checkToggle(this, isFavorite, R.drawable.ic_star)
                 }
                 binding.inCollectionCoinButton.apply {
                     setOnClickListener {
                         isInCollection = !isInCollection
-                        checkToggle(this, isInCollection, R.drawable.ic_chest_outline, R.drawable.ic_chest)
+                        checkToggle(this, isInCollection, R.drawable.ic_chest)
                         updateCoin.invoke(this@with)
                     }
-                    checkToggle(this, isInCollection, R.drawable.ic_chest_outline, R.drawable.ic_chest)
+                    checkToggle(this, isInCollection, R.drawable.ic_chest)
                 }
             }
         }
     }
 
-    private fun checkToggle(imageButton: ImageButton, check: Boolean, resOutlineId: Int, resId: Int){
+    private fun checkToggle(imageButton: ImageButton, check: Boolean, resId: Int){
         if (check) {
             setImageButtonIcon(imageButton, resId, R.color.active)
         } else {
-            setImageButtonIcon(imageButton, resOutlineId, R.color.inactive)
+            setImageButtonIcon(imageButton, resId, R.color.inactive)
         }
     }
 
     private fun setImageButtonIcon(imageButton: ImageButton, resId: Int, colorId: Int) {
         imageButton.apply {
             setImageResource(resId)
-            imageTintList = ColorStateList.valueOf(
-                ContextCompat.getColor(
-                    context,
-                    colorId
-                )
-            )
+            imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, colorId))
         }
     }
 }
