@@ -23,8 +23,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CoinFragment : Fragment(R.layout.fragment_coin) {
-    private var _coinBinding: FragmentCoinBinding? = null
 
+    private var _coinBinding: FragmentCoinBinding? = null
     val coinBinding
     get()= _coinBinding!!
 

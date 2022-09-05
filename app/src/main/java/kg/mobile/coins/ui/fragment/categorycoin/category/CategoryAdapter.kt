@@ -25,9 +25,8 @@ class CategoryAdapter(private val itemClick: ((Category)-> Unit)): RecyclerView.
                 binding.categoryCardView.setOnClickListener{
                     itemClick.invoke(this)
                 }
-                }
             }
-
+        }
     }
     override fun getItemCount() = categoriesList.size
 
@@ -36,4 +35,4 @@ class CategoryAdapter(private val itemClick: ((Category)-> Unit)): RecyclerView.
         notifyDataSetChanged()
     }
 
-}   
+}
