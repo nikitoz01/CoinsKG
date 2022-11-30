@@ -61,8 +61,8 @@ class CoinDetailFragment : DialogFragment(R.layout.fragment_coin_detail) {
 
 
     override fun onAttach(context: Context) {
-        context.appComponent.inject(this)
         super.onAttach(context)
+        context.appComponent.inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

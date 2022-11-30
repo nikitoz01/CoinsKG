@@ -42,8 +42,8 @@ class CoinFragment : Fragment(R.layout.fragment_coin) {
     }
 
     override fun onAttach(context: Context) {
-        context.appComponent.inject(this)
         super.onAttach(context)
+        context.appComponent.inject(this)
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

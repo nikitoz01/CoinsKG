@@ -38,8 +38,8 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
     private lateinit var adapter: CategoryAdapter
 
     override fun onAttach(context: Context) {
-        context.appComponent.inject(this)
         super.onAttach(context)
+        context.appComponent.inject(this)
     }
 
     override fun onDestroyView() {
