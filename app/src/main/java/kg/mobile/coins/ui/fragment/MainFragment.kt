@@ -3,13 +3,12 @@ package kg.mobile.coins.ui.fragment
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -27,7 +26,7 @@ import kg.mobile.coins.ui.fragment.categorycoin.coin.CoinFragment
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MainFragment: Fragment(R.layout.fragment_main) {
+class MainFragment : Fragment(R.layout.fragment_main) {
 
     private var _mainBinding: FragmentMainBinding? = null
 
@@ -46,21 +45,20 @@ class MainFragment: Fragment(R.layout.fragment_main) {
     private var isSearchActive = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
     }
 
     override fun onAttach(context: Context) {
-        context.appComponent.inject(this)
         super.onAttach(context)
+
+        requireContext().appComponent.inject(this)
         val backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (defaultNavHost.childFragmentManager.backStackEntryCount > 0) {
-                        defaultNavHost.findNavController().popBackStack()
-                  //  if(isSearchActive) defaultNavHost.findNavController().popBackStack()
-                        isSearchActive = false
-                    }
-                else {
+                    defaultNavHost.findNavController().popBackStack()
+                    //  if(isSearchActive) defaultNavHost.findNavController().popBackStack()
+                    isSearchActive = false
+                } else {
                     parentFragmentManager.popBackStack()
                     requireActivity().finish()
                 }
@@ -70,7 +68,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean("isSearchActive",isSearchActive)
+        outState.putBoolean("isSearchActive", isSearchActive)
         super.onSaveInstanceState(outState)
     }
 
@@ -79,28 +77,6 @@ class MainFragment: Fragment(R.layout.fragment_main) {
         super.onViewStateRestored(savedInstanceState)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            when (item.itemId) {
-                R.id.app_bar_search -> {
-                    if(!isSearchActive) {
-                        isSearchActive = true
-                        defaultNavHost.findNavController().navigate(
-                            CategoryCoinFragmentDirections.actionCategoryCoinFragmentToCoinSearchFragment()
-                        )
-                    }
-                    return true
-                }
-            }
-        when (item.itemId) {
-            R.id.app_bar_info -> {
-                defaultNavHost.findNavController().navigate(
-                        CategoryCoinFragmentDirections.actionGlobalAboutApp()
-                )
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -119,8 +95,8 @@ class MainFragment: Fragment(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        defaultNavHost = (childFragmentManager.
-        findFragmentById(R.id.defaultFragmentContainerView) as NavHostFragment)
+        defaultNavHost =
+            (childFragmentManager.findFragmentById(R.id.defaultFragmentContainerView) as NavHostFragment)
 
         val alreadyUpdated: Boolean = arguments?.let {
             MainFragmentArgs.fromBundle(it).alreadyUpdated
@@ -132,15 +108,45 @@ class MainFragment: Fragment(R.layout.fragment_main) {
             loadNewData()
         }
 
-        mainViewModel.existsCheck.observe(viewLifecycleOwner){
+        mainViewModel.existsCheck.observe(viewLifecycleOwner) {
             if (it) {
                 (activity as AppCompatActivity).supportActionBar?.show()
                 mainBinding.mainScrollView.visibility = View.VISIBLE
-            }
-            else {
+            } else {
                 mainBinding.loadStateFrameLayout.visibility = View.VISIBLE
             }
         }
+        (requireActivity() as MenuHost).apply {
+
+            addMenuProvider(object : MenuProvider {
+
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                }
+
+                override fun onMenuItemSelected(item: MenuItem): Boolean {
+                    return when (item.itemId) {
+                        R.id.app_bar_search -> {
+                            if (!isSearchActive) {
+                                isSearchActive = true
+                                defaultNavHost.findNavController().navigate(
+                                    CategoryCoinFragmentDirections.actionCategoryCoinFragmentToCoinSearchFragment()
+                                )
+                            }
+                            true
+                        }
+                        R.id.app_bar_info -> {
+                            defaultNavHost.findNavController().navigate(
+                                CategoryCoinFragmentDirections.actionGlobalAboutApp()
+                            )
+                            true
+                        }
+                        else -> false
+                    }
+                }
+
+            }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        }
+
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -170,7 +176,11 @@ class MainFragment: Fragment(R.layout.fragment_main) {
                                 //  mainViewModel.cancelLoad()
                                 mainBinding.swipeRefreshLayout.isRefreshing = false
                                 Log.e("NewCoins", "FAILLLLL ${viewState.exception}")
-                                Toast.makeText(context,"Ошибка загрузки, повторите попытку позже",Toast.LENGTH_LONG).show()
+                                Toast.makeText(
+                                    context,
+                                    "Ошибка загрузки, повторите попытку позже",
+                                    Toast.LENGTH_LONG
+                                ).show()
                             }
                             is State.Success -> {
                                 mainViewModel.insertCoins(viewState.value)
@@ -201,7 +211,8 @@ class MainFragment: Fragment(R.layout.fragment_main) {
                 }) {
                 mainBinding.swipeRefreshLayout.isRefreshing = false
                 if ((this.categoryStateFlow.value as State.Success).value.isEmpty() ||
-                    (this.coinStateFlow.value as State.Success).value.isNotEmpty()){
+                    (this.coinStateFlow.value as State.Success).value.isNotEmpty()
+                ) {
                     findNavController().apply {
                         navigate(MainFragmentDirections.actionGlobalMainFragment(true))
                     }
