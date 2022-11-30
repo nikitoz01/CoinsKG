@@ -16,7 +16,8 @@ interface AppComponentDependencies {
 }
 
 @Component(dependencies = [AppComponentDependencies::class],
-    modules = [AppModule::class,ViewModelModule::class, RetrofitModule::class, RoomModule::class,GlideDaggerModule::class])
+    modules = [AppModule::class,ViewModelModule::class,
+        RetrofitModule::class, RoomModule::class,GlideDaggerModule::class])
 @Singleton
 interface AppComponent {
 
@@ -29,6 +30,8 @@ interface AppComponent {
     @Component.Builder
     interface Builder {
         fun build(): AppComponent
+
         fun bindContext(appComponentDependencies: AppComponentDependencies): Builder
+
     }
 }
