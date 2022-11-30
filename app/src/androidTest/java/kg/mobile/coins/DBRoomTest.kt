@@ -26,19 +26,24 @@ class DBRoomTest {
     private lateinit var db: CoinsDatabase
 
 
-    private fun testCoin() = Coin(1, 1 , "Да Ли Юань Бао", 295000, "No-Image.jpg", null, null,
-        null, "766–780", null, null ,"AE" ,null ,null ,null,
-        null, 0, true)
+    private fun testCoin() = Coin(
+        1, 1, "Да Ли Юань Бао", 295000, "No-Image.jpg", null, null,
+        null, "766–780", null, null, "AE", null, null, null,
+        null, 0, true
+    )
 
 
-    private fun testCategory() = Category(1, "Карлукский Каганат", null, "756 — 940", null,
-        null, 1, true)
+    private fun testCategory() = Category(
+        1, "Карлукский Каганат", null, "756 — 940", null,
+        null, 1, true
+    )
 
     @Before
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
-            context, CoinsDatabase::class.java).build()
+            context, CoinsDatabase::class.java
+        ).build()
         coinDao = db.getCoinDao()
         categoryDao = db.getCategoryDao()
     }
@@ -62,7 +67,7 @@ class DBRoomTest {
     @Throws(Exception::class)
     fun insertCategoryTest() {
         runBlocking {
-             categoryDao.insert(testCategory())
+            categoryDao.insert(testCategory())
             assertThat(categoryDao.getById(1)).isEqualTo(testCategory())
         }
     }
@@ -98,7 +103,7 @@ class DBRoomTest {
                 isImageLoaded = true
                 isActive = true
             })
-            assertThat(coinDao.getFavoriteCoins("",10,0).get(0)).isEqualTo(testCoin().apply {
+            assertThat(coinDao.getFavoriteCoins("", 10, 0).get(0)).isEqualTo(testCoin().apply {
                 isFavorite = true
                 isImageLoaded = true
                 isActive = true

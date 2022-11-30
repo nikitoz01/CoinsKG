@@ -1,147 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coinCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardElevation="0dp"
-    android:id="@+id/coinCardView"
-    app:cardBackgroundColor="#0000">
+    app:cardBackgroundColor="#0000"
+    app:cardElevation="0dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="10dp"
         android:layout_marginTop="15dp"
+        app:cardCornerRadius="10dp"
         app:cardUseCompatPadding="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:text="coin name"
-            android:textSize="16sp"
-            android:id="@+id/coinNameTextView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            android:textAlignment="center">
-        </TextView>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="@id/coinNameTextView"
-            app:layout_constraintTop_toBottomOf="@id/coinNameTextView"
-            app:layout_constraintEnd_toEndOf="@id/coinNameTextView"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/containerCoinInfoLinearLayout"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp">
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            <TextView
+                android:id="@+id/coinNameTextView"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Датировка:"
-                    android:textAlignment="center"
-                    android:textSize="12sp"
-                    android:id="@+id/coinPeriodLabelTextView">
-                </TextView>
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="coin name"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></TextView>
 
-                <TextView
-                    android:layout_width="match_parent"
+            <LinearLayout
+                android:id="@+id/containerCoinInfoLinearLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/coinNameTextView"
+                app:layout_constraintStart_toStartOf="@id/coinNameTextView"
+                app:layout_constraintTop_toBottomOf="@id/coinNameTextView">
+
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="---"
-                    android:textSize="12sp"
-                    android:textAlignment="center"
-                    android:id="@+id/coinPeriodTextView">
-                </TextView>
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/coinPeriodLabelTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Датировка:"
+                        android:textAlignment="center"
+                        android:textSize="12sp"></TextView>
+
+                    <TextView
+                        android:id="@+id/coinPeriodTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="---"
+                        android:textAlignment="center"
+                        android:textSize="12sp"></TextView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/coinEstimateLabelTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Оценка:"
+                        android:textAlignment="center"
+                        android:textSize="12sp"></TextView>
+
+                    <TextView
+                        android:id="@+id/coinEstimateTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="---"
+                        android:textAlignment="center"
+                        android:textSize="12sp"></TextView>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Оценка:"
-                    android:textAlignment="center"
-                    android:textSize="12sp"
-                    android:id="@+id/coinEstimateLabelTextView">
-                </TextView>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="---"
-                    android:textAlignment="center"
-                    android:textSize="12sp"
-                    android:id="@+id/coinEstimateTextView">
-                </TextView>
-
-            </LinearLayout>
-
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/coinImageView"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
+                android:contentDescription="coin image"
+                android:scaleType="centerInside"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/coinNameTextView"
+                app:layout_constraintTop_toTopOf="parent"></ImageView>
 
 
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="80dp"
-            app:layout_constraintStart_toEndOf="@id/coinNameTextView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_margin="10dp"
-            android:scaleType="centerInside"
-            android:id="@+id/coinImageView"
-            android:contentDescription="coin image">
-        </ImageView>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
     <LinearLayout
+        android:id="@+id/favoriteContainerLinearLayout"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
+        android:layout_gravity="end"
         android:layout_marginEnd="30dp"
-        android:id="@+id/favoriteContainerLinearLayout"
-        android:translationZ="5dp"
-        android:layout_gravity="end">
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:translationZ="5dp">
 
         <ImageButton
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_star_outline"
-            android:background="?android:attr/selectableItemBackground"
             android:id="@+id/favoriteCoinButton"
-            app:tint="@color/inactive">
-        </ImageButton>
-
-        <ImageButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/ic_chest_outline"
             android:background="?android:attr/selectableItemBackground"
-            android:id="@+id/inCollectionCoinButton">
-        </ImageButton>
+            android:src="@drawable/ic_star_outline"
+            app:tint="@color/inactive"></ImageButton>
+
+        <ImageButton
+            android:id="@+id/inCollectionCoinButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_chest_outline"></ImageButton>
 
     </LinearLayout>
 

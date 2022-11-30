@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/categoryCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="5dp"
     app:cardCornerRadius="10dp"
-    app:cardUseCompatPadding="true"
-    android:id="@+id/categoryCardView">
+    app:cardUseCompatPadding="true">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="10dp">
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="category name"
-        android:textSize="16sp"
-        android:id="@+id/categoryNameTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp">
-    </TextView>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="category period"
-        android:textSize="12sp"
-        android:id="@+id/categoryPeriodTextView"
-        app:layout_constraintTop_toBottomOf="@id/categoryNameTextView"
-        app:layout_constraintStart_toStartOf="@id/categoryNameTextView"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp">
-    </TextView>
+
+        <TextView
+            android:id="@+id/categoryNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="category name"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></TextView>
+
+        <TextView
+            android:id="@+id/categoryPeriodTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="category period"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/categoryNameTextView"
+            app:layout_constraintTop_toBottomOf="@id/categoryNameTextView"></TextView>
+
         <ImageView
             android:layout_width="48dp"
             android:layout_height="48dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/ic_arrow_forward_48">
-        </ImageView>
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_arrow_forward_48"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></ImageView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

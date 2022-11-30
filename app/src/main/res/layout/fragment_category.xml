@@ -1,48 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--<androidx.core.widget.NestedScrollView-->
+<?xml version="1.0" encoding="utf-8"?><!--<androidx.core.widget.NestedScrollView-->
 <!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
 <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
 <!--    xmlns:tools="http://schemas.android.com/tools"-->
 <!--    android:layout_width="match_parent"-->
 <!--    android:layout_height="match_parent">-->
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/categoryConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/green_300"
-    tools:context=".CategoryFragment"
-    android:id="@+id/categoryConstraintLayout"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".CategoryFragment">
 
     <TextView
+        android:id="@+id/currentCategoryDescriptionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:visibility="gone"
-        android:id="@+id/currentCategoryDescriptionTextView" />
+        android:visibility="gone" />
 
     <TextView
+        android:id="@+id/titleCategoryTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:text="Категории"
         android:textAlignment="center"
-        android:id="@+id/titleCategoryTextView"
-        android:text="Категории" />
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categoryRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:id="@+id/categoryRecyclerView"
         tools:listitem="@layout/item_category">
 
     </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>
 
-<!--</androidx.core.widget.NestedScrollView>-->
+    <!--</androidx.core.widget.NestedScrollView>-->

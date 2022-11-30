@@ -8,23 +8,23 @@
     <fragment
         android:id="@+id/categoryCoinFragment"
         android:name="kg.mobile.coins.ui.fragment.categorycoin.CategoryCoinFragment"
-        android:label="CategoryCoinFragment" >
+        android:label="CategoryCoinFragment">
         <argument
             android:name="parentId"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            android:defaultValue="-1"
+            app:argType="integer" />
         <argument
             android:name="categoryName"
+            android:defaultValue="@null"
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
         <action
             android:id="@+id/action_categoryCoinFragment_to_coinSearchFragment"
             app:destination="@id/coinSearchFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_categoryCoinFragment_to_coinDetailFragment"
             app:destination="@id/coinDetailFragment">
@@ -37,27 +37,28 @@
     <fragment
         android:id="@+id/coinSearchFragment"
         android:name="kg.mobile.coins.ui.fragment.coinsearch.CoinSearchFragment"
-        android:label="CoinSearchFragment" >
+        android:label="CoinSearchFragment">
         <action
             android:id="@+id/action_coinSearchFragment_to_coinDetailFragment"
             app:destination="@id/coinDetailFragment">
             <argument
                 android:name="coinId"
-                app:argType="integer"
-                android:defaultValue="-1" />
+                android:defaultValue="-1"
+                app:argType="integer" />
         </action>
     </fragment>
     <dialog
         android:id="@+id/coinDetailFragment"
         android:name="kg.mobile.coins.ui.fragment.coindetail.CoinDetailFragment"
-        android:label="CoinDetailFragment" >
+        android:label="CoinDetailFragment">
         <argument
             android:name="coinId"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            android:defaultValue="-1"
+            app:argType="integer" />
     </dialog>
 
-    <action android:id="@+id/action_global_CategoryCoinFragment"
+    <action
+        android:id="@+id/action_global_CategoryCoinFragment"
         app:destination="@id/categoryCoinFragment"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
@@ -65,22 +66,22 @@
         app:popExitAnim="@anim/slide_out_right">
         <argument
             android:name="parentId"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            android:defaultValue="-1"
+            app:argType="integer" />
         <argument
             android:name="categoryName"
+            android:defaultValue="@null"
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </action>
 
-    <action android:id="@+id/action_global_AboutApp"
+    <action
+        android:id="@+id/action_global_AboutApp"
         app:destination="@id/aboutAppFragment"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
-        app:popExitAnim="@anim/slide_out_right">
-    </action>
+        app:popExitAnim="@anim/slide_out_right"></action>
     <fragment
         android:id="@+id/aboutAppFragment"
         android:name="kg.mobile.coins.ui.fragment.AboutAppFragment"

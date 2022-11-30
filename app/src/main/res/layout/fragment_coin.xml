@@ -7,27 +7,25 @@
 <!--    android:layout_width="match_parent"-->
 <!--    android:layout_height="wrap_content">-->
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/yellow_300"
-        android:id="@+id/coinConstraintLayout"
-        tools:context=".CoinFragment">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coinConstraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/yellow_300"
+    tools:context=".CoinFragment">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:id="@+id/titleCoinTextView"
-            android:text="Монеты"
-            />
+    <TextView
+        android:id="@+id/titleCoinTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Монеты"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/coinRecyclerView"
@@ -44,4 +42,4 @@
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--</androidx.core.widget.NestedScrollView>-->
+    <!--</androidx.core.widget.NestedScrollView>-->

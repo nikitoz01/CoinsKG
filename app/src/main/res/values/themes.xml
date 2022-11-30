@@ -22,10 +22,12 @@
         // Use windowSplashScreenAnimatedIcon to add either a drawable or an
         // animated drawable. One of these is required.
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_logo_coin</item>
-        <item name="windowSplashScreenAnimationDuration">200</item>  # Required for
+        <item name="windowSplashScreenAnimationDuration">200</item>
+        # Required for
         # animated icons
         // Set the theme of the Activity that directly follows your splash screen.
-        <item name="postSplashScreenTheme">@style/Theme.CoinsKG</item>  # Required.
+        <item name="postSplashScreenTheme">@style/Theme.CoinsKG</item>
+        # Required.
     </style>
 
 </resources>

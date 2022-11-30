@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <androidx.fragment.app.FragmentContainerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/categoryFragmentContainerView"
-        android:name="kg.mobile.coins.ui.fragment.categorycoin.category.CategoryFragment">
-    </androidx.fragment.app.FragmentContainerView>
+        android:name="kg.mobile.coins.ui.fragment.categorycoin.category.CategoryFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></androidx.fragment.app.FragmentContainerView>
 
     <androidx.fragment.app.FragmentContainerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/coinFragmentContainerView"
-        android:name="kg.mobile.coins.ui.fragment.categorycoin.coin.CoinFragment">
-    </androidx.fragment.app.FragmentContainerView>
+        android:name="kg.mobile.coins.ui.fragment.categorycoin.coin.CoinFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></androidx.fragment.app.FragmentContainerView>
 </LinearLayout>
