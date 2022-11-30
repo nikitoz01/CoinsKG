@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_menu,menu)
+        menuInflater.inflate(R.menu.main_menu, menu)
         menu.findItem(R.id.app_bar_search).apply {
             (actionView as androidx.appcompat.widget.SearchView).apply {
                 queryHint = "Введите ключевую фразу..."

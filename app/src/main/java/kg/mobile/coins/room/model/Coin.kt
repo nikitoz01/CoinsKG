@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull
 @Entity(tableName = "coin")
 data class Coin(
     @PrimaryKey
-    val id:Int,
+    val id: Int,
     var categoryId: Int?,
     @NotNull
     var name: String,
@@ -24,7 +24,7 @@ data class Coin(
     var mint: String?,
     var denomination: String?,
     var description: String?,
-    var descriptionDetailURL:String?,
+    var descriptionDetailURL: String?,
     var updateTime: Long,
     var isActive: Boolean,
     var isImageLoaded: Boolean = false,

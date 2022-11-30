@@ -9,18 +9,18 @@ import kg.mobile.coins.room.model.Image
 
 
 fun Category.categoryModelToDTO(): CategoryDto {
-   return with(this) {
-       CategoryDto(
-           id = id,
-           name = name,
-           parentId = parentId,
-           period = period,
-           description = description,
-           detailURL = detailURL,
-           updateTime = updateTime,
-           isActive = isActive
-       )
-   }
+    return with(this) {
+        CategoryDto(
+            id = id,
+            name = name,
+            parentId = parentId,
+            period = period,
+            description = description,
+            detailURL = detailURL,
+            updateTime = updateTime,
+            isActive = isActive
+        )
+    }
 }
 
 fun Coin.coinModelToDTO(): CoinDto {

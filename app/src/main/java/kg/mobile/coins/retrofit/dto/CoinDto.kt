@@ -1,7 +1,7 @@
 package kg.mobile.coins.retrofit.dto
 
 data class CoinDto(
-    val id:Int,
+    val id: Int,
     var categoryId: Int?,
     var name: String,
     var zenoId: Int?,
@@ -16,7 +16,7 @@ data class CoinDto(
     var mint: String?,
     var denomination: String?,
     var description: String?,
-    var descriptionDetailURL:String?,
+    var descriptionDetailURL: String?,
     var updateTime: Long,
     var isActive: Boolean
 )

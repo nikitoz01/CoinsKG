@@ -18,15 +18,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class CoinAdapter(private val itemClick:(Coin) -> Unit, private val updateCoin:(Coin) -> Unit ): PagingDataAdapter<Coin, CoinAdapter.CoinViewHolder>(
-    CoinsDiffCallback()
-) {
+class CoinAdapter(private val itemClick: (Coin) -> Unit, private val updateCoin: (Coin) -> Unit) :
+    PagingDataAdapter<Coin, CoinAdapter.CoinViewHolder>(
+        CoinsDiffCallback()
+    ) {
 
-    inner class CoinViewHolder (val binding: ItemCoinBinding): RecyclerView.ViewHolder(binding.root){
+    inner class CoinViewHolder(val binding: ItemCoinBinding) :
+        RecyclerView.ViewHolder(binding.root) {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinViewHolder {
-      return CoinViewHolder(ItemCoinBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        return CoinViewHolder(
+            ItemCoinBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: CoinViewHolder, position: Int) {
@@ -67,7 +75,7 @@ class CoinAdapter(private val itemClick:(Coin) -> Unit, private val updateCoin:(
         }
     }
 
-    private fun checkToggle(imageButton: ImageButton, check: Boolean, resId: Int){
+    private fun checkToggle(imageButton: ImageButton, check: Boolean, resId: Int) {
         if (check) {
             setImageButtonIcon(imageButton, resId, R.color.active)
         } else {
@@ -83,9 +91,9 @@ class CoinAdapter(private val itemClick:(Coin) -> Unit, private val updateCoin:(
     }
 }
 
-class CoinsDiffCallback: DiffUtil.ItemCallback<Coin>(){
+class CoinsDiffCallback : DiffUtil.ItemCallback<Coin>() {
     override fun areItemsTheSame(oldItem: Coin, newItem: Coin): Boolean {
-       return  oldItem.id == newItem.id
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: Coin, newItem: Coin): Boolean {

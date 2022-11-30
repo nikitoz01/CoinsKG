@@ -7,8 +7,8 @@ import kg.mobile.coins.dagger.RoomScope
 @RoomScope
 interface RoomComponent {
     @Subcomponent.Builder
-    interface Builder{
-        fun build():RoomComponent
+    interface Builder {
+        fun build(): RoomComponent
     }
 
 }

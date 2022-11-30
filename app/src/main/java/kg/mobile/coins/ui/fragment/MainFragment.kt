@@ -51,7 +51,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        requireContext().appComponent.inject(this)
+        requireContext().appComponent.viewModelComponent().create().inject(this)
+
         val backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (defaultNavHost.childFragmentManager.backStackEntryCount > 0) {

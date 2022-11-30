@@ -28,7 +28,7 @@ class CoinDetailFragment : DialogFragment(R.layout.fragment_coin_detail) {
 
     private var _binding: FragmentCoinDetailBinding? = null
     private val binding
-    get() = _binding!!
+        get() = _binding!!
 
 
     private val coinDetailViewModel: CoinDetailViewModel by viewModels {
@@ -37,7 +37,7 @@ class CoinDetailFragment : DialogFragment(R.layout.fragment_coin_detail) {
 
 
     @Inject
-    lateinit var factory : MultiViewModelFactory
+    lateinit var factory: MultiViewModelFactory
 
     private val navArgs by navArgs<CoinDetailFragmentArgs>()
 
@@ -50,7 +50,7 @@ class CoinDetailFragment : DialogFragment(R.layout.fragment_coin_detail) {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentCoinDetailBinding.inflate(inflater,container,false)
+        _binding = FragmentCoinDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -62,13 +62,13 @@ class CoinDetailFragment : DialogFragment(R.layout.fragment_coin_detail) {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        context.appComponent.inject(this)
+        requireContext().appComponent.viewModelComponent().create().inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val coinId: Int = navArgs.coinId
         coinDetailViewModel.getCoins(coinId)
-        coinDetailViewModel.coinDetailLiveData.observe(viewLifecycleOwner){
+        coinDetailViewModel.coinDetailLiveData.observe(viewLifecycleOwner) {
             showInfo(it)
         }
         super.onViewCreated(view, savedInstanceState)
@@ -82,8 +82,13 @@ class CoinDetailFragment : DialogFragment(R.layout.fragment_coin_detail) {
                 setInfo(this, binding.zenoContainer, zenoId?.toString())
                 setTextColor(Color.BLUE)
                 paintFlags = Paint.UNDERLINE_TEXT_FLAG
-                setOnClickListener{
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.zeno.ru/showphoto.php?photo=${zenoId}")))
+                setOnClickListener {
+                    startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://www.zeno.ru/showphoto.php?photo=${zenoId}")
+                        )
+                    )
                 }
             }
             binding.buttonCloseDialog.setOnClickListener {
@@ -106,13 +111,13 @@ class CoinDetailFragment : DialogFragment(R.layout.fragment_coin_detail) {
             setInfo(binding.denominationTextView, binding.denominationContainer, denomination)
             setInfo(binding.metalTextView, binding.metalContainer, metal)
 
-            auctionURL.let{
+            auctionURL.let {
                 binding.buttonToAuction.apply {
                     setOnClickListener {
                         startActivity(
                             Intent(
                                 Intent.ACTION_VIEW,
-                                Uri.parse( auctionURL)
+                                Uri.parse(auctionURL)
                             )
                         )
                     }
@@ -122,15 +127,15 @@ class CoinDetailFragment : DialogFragment(R.layout.fragment_coin_detail) {
         }
     }
 
-    private fun  setInfo(view: TextView, info: String?){
-        info?.let{
+    private fun setInfo(view: TextView, info: String?) {
+        info?.let {
             view.text = info
             view.visibility = View.VISIBLE
         }
     }
 
-    private fun  setInfo(view: TextView, container: LinearLayout, info: String?){
-        info?.let{
+    private fun setInfo(view: TextView, container: LinearLayout, info: String?) {
+        info?.let {
             view.text = info
             container.visibility = View.VISIBLE
         }

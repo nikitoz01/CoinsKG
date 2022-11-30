@@ -9,31 +9,37 @@ interface CoinDao {
     @Query("SELECT * FROM coin WHERE isActive = 1 and isImageLoaded = 1")
     fun getAllCoins(): Flow<List<Coin>>
 
-    @Query("SELECT * FROM coin " +
-    "WHERE isActive = 1 and isImageLoaded = 1 and " +
-    "((:searchBy = '' OR lower(name) LIKE '%' || lower(:searchBy) || '%') or " +
-            "(lower(mint) = lower(:searchBy)))  " +
-    "ORDER BY name " +
-    "LIMIT :limit OFFSET :offset ")
-    suspend fun getCoins(searchBy: String,limit: Int, offset: Int): List<Coin>
+    @Query(
+        "SELECT * FROM coin " +
+                "WHERE isActive = 1 and isImageLoaded = 1 and " +
+                "((:searchBy = '' OR lower(name) LIKE '%' || lower(:searchBy) || '%') or " +
+                "(lower(mint) = lower(:searchBy)))  " +
+                "ORDER BY name " +
+                "LIMIT :limit OFFSET :offset "
+    )
+    suspend fun getCoins(searchBy: String, limit: Int, offset: Int): List<Coin>
 
-    @Query("SELECT * FROM coin " +
-            "WHERE isActive = 1 and isImageLoaded = 1 and " +
-            "((:searchBy = '' OR lower(name) LIKE '%' || lower(:searchBy) || '%') or " +
-            "(lower(mint) = lower(:searchBy)))  and " +
-            "isFavorite = 1 " +
-            "ORDER BY name " +
-            "LIMIT :limit OFFSET :offset ")
-    suspend fun getFavoriteCoins(searchBy: String,limit: Int, offset: Int): List<Coin>
+    @Query(
+        "SELECT * FROM coin " +
+                "WHERE isActive = 1 and isImageLoaded = 1 and " +
+                "((:searchBy = '' OR lower(name) LIKE '%' || lower(:searchBy) || '%') or " +
+                "(lower(mint) = lower(:searchBy)))  and " +
+                "isFavorite = 1 " +
+                "ORDER BY name " +
+                "LIMIT :limit OFFSET :offset "
+    )
+    suspend fun getFavoriteCoins(searchBy: String, limit: Int, offset: Int): List<Coin>
 
-    @Query("SELECT * FROM coin " +
-            "WHERE isActive = 1 and isImageLoaded = 1 and " +
-            "((:searchBy = '' OR lower(name) LIKE '%' || lower(:searchBy) || '%') or " +
-            "(lower(mint) = lower(:searchBy)))  and " +
-            "isInCollection = 1 " +
-            "ORDER BY name " +
-            "LIMIT :limit OFFSET :offset ")
-    suspend fun getInCollectionCoins(searchBy: String,limit: Int, offset: Int): List<Coin>
+    @Query(
+        "SELECT * FROM coin " +
+                "WHERE isActive = 1 and isImageLoaded = 1 and " +
+                "((:searchBy = '' OR lower(name) LIKE '%' || lower(:searchBy) || '%') or " +
+                "(lower(mint) = lower(:searchBy)))  and " +
+                "isInCollection = 1 " +
+                "ORDER BY name " +
+                "LIMIT :limit OFFSET :offset "
+    )
+    suspend fun getInCollectionCoins(searchBy: String, limit: Int, offset: Int): List<Coin>
 
 //    @Query("SELECT * FROM coin " +
 //            "WHERE categoryId IS NULL and isActive = 1 and isImageLoaded = 1")
@@ -42,14 +48,18 @@ interface CoinDao {
 //    @Query("SELECT * FROM coin where categoryId = :categoryId AND isActive = 1 AND isImageLoaded = 1")
 //    fun getCoinsByCategoryId(categoryId: Int): Flow<List<Coin>>
 
-    @Query("SELECT * FROM coin " +
-            "WHERE categoryId IS NULL and isActive = 1 and isImageLoaded = 1 " +
-            "LIMIT :limit OFFSET :offset")
+    @Query(
+        "SELECT * FROM coin " +
+                "WHERE categoryId IS NULL and isActive = 1 and isImageLoaded = 1 " +
+                "LIMIT :limit OFFSET :offset"
+    )
     suspend fun getMainCoins(limit: Int, offset: Int): List<Coin>
 
-    @Query("SELECT * FROM coin " +
-            "where categoryId = :categoryId AND isActive = 1 AND isImageLoaded = 1 " +
-            "LIMIT :limit OFFSET :offset")
+    @Query(
+        "SELECT * FROM coin " +
+                "where categoryId = :categoryId AND isActive = 1 AND isImageLoaded = 1 " +
+                "LIMIT :limit OFFSET :offset"
+    )
     suspend fun getCoinsByCategoryId(categoryId: Int, limit: Int, offset: Int): List<Coin>
 
 

@@ -33,13 +33,13 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
         viewModelFactory
     }
 
-    private val parentViewModel: CategoryCoinViewModel by viewModels({requireParentFragment()})
+    private val parentViewModel: CategoryCoinViewModel by viewModels({ requireParentFragment() })
 
     private lateinit var adapter: CategoryAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        context.appComponent.inject(this)
+        requireContext().appComponent.viewModelComponent().create().inject(this)
     }
 
     override fun onDestroyView() {
@@ -57,10 +57,14 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
         val recyclerview = categoryBinding.categoryRecyclerView
         recyclerview.layoutManager = LinearLayoutManager(activity)
 
-        adapter = CategoryAdapter {category ->
-            (parentFragment as CategoryCoinFragment).
-            findNavController().navigate(CategoryCoinFragmentDirections.
-            actionGlobalCategoryCoinFragment(category.id, category.name))}
+        adapter = CategoryAdapter { category ->
+            (parentFragment as CategoryCoinFragment).findNavController().navigate(
+                CategoryCoinFragmentDirections.actionGlobalCategoryCoinFragment(
+                    category.id,
+                    category.name
+                )
+            )
+        }
 
         recyclerview.adapter = adapter
         return categoryBinding.root
@@ -70,9 +74,9 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        parentViewModel.getParentId().observe(viewLifecycleOwner){
+        parentViewModel.getParentId().observe(viewLifecycleOwner) {
             categoryViewModel.getChildCategories(it)
-            it?.let{categoryViewModel.getCategory(it)}
+            it?.let { categoryViewModel.getCategory(it) }
         }
         parentViewModel.getCategoryName().observe(viewLifecycleOwner) {
             it?.let {
@@ -88,11 +92,13 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
             adapter.setList(it)
         }
 
-        categoryViewModel.categoryLiveData.observe(viewLifecycleOwner){
-            it.description?.let {  categoryBinding.currentCategoryDescriptionTextView.apply {
-                text = it
-                visibility = View.VISIBLE
-            } }
+        categoryViewModel.categoryLiveData.observe(viewLifecycleOwner) {
+            it.description?.let {
+                categoryBinding.currentCategoryDescriptionTextView.apply {
+                    text = it
+                    visibility = View.VISIBLE
+                }
+            }
         }
     }
 

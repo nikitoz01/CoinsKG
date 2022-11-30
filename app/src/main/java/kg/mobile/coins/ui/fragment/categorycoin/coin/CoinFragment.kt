@@ -26,14 +26,14 @@ class CoinFragment : Fragment(R.layout.fragment_coin) {
 
     private var _coinBinding: FragmentCoinBinding? = null
     val coinBinding
-    get()= _coinBinding!!
+        get() = _coinBinding!!
 
     @Inject
     lateinit var factory: MultiViewModelFactory
 
     private val coinViewModel: CoinViewModel by viewModels { factory }
 
-    private val parentViewModel: CategoryCoinViewModel by viewModels({requireParentFragment()})
+    private val parentViewModel: CategoryCoinViewModel by viewModels({ requireParentFragment() })
 
     private lateinit var adapter: CoinAdapter
 
@@ -43,27 +43,28 @@ class CoinFragment : Fragment(R.layout.fragment_coin) {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        context.appComponent.inject(this)
+        requireContext().appComponent.viewModelComponent().create().inject(this)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        _coinBinding = FragmentCoinBinding.inflate(inflater,container,false)
+        _coinBinding = FragmentCoinBinding.inflate(inflater, container, false)
         val recyclerview = coinBinding.coinRecyclerView
         recyclerview.layoutManager = LinearLayoutManager(activity)
-        adapter = CoinAdapter ({coin ->
-                parentFragment?.let {
-                    findNavController()
-                        .safeNavigate(
-                            CategoryCoinFragmentDirections.actionCategoryCoinFragmentToCoinDetailFragment(
-                                coin.id
-                            )
+        adapter = CoinAdapter({ coin ->
+            parentFragment?.let {
+                findNavController()
+                    .safeNavigate(
+                        CategoryCoinFragmentDirections.actionCategoryCoinFragmentToCoinDetailFragment(
+                            coin.id
                         )
-                }
-            },
-            {coin ->
+                    )
+            }
+        },
+            { coin ->
                 coinViewModel.updateCoin(coin)
             }
         )
@@ -95,7 +96,7 @@ class CoinFragment : Fragment(R.layout.fragment_coin) {
     companion object {
         fun newInstance(categoryId: Int?): CoinFragment {
             val bundle = Bundle()
-            bundle.putString("categoryId",  categoryId?.toString() ?: "")
+            bundle.putString("categoryId", categoryId?.toString() ?: "")
             val fragment = CoinFragment()
             fragment.arguments = bundle
             return fragment

@@ -12,12 +12,12 @@ import javax.inject.Scope
 import javax.inject.Singleton
 
 @Module
-class RoomModule  {
+class RoomModule {
 
 
     @Provides
     @Singleton
-    fun provideCategoryDao(coinsDatabase: CoinsDatabase) =  coinsDatabase.getCategoryDao()
+    fun provideCategoryDao(coinsDatabase: CoinsDatabase) = coinsDatabase.getCategoryDao()
 
     @Provides
     @Singleton
@@ -29,11 +29,12 @@ class RoomModule  {
 
     @Provides
     @Singleton
-    fun provideRoomRepository(categoryDao:CategoryDao, coinDao: CoinDao) = RoomRepository(categoryDao, coinDao)
+    fun provideRoomRepository(categoryDao: CategoryDao, coinDao: CoinDao) =
+        RoomRepository(categoryDao, coinDao)
 
     @Provides
     @Singleton
-    fun provideDatabase(context:Context): CoinsDatabase{
+    fun provideDatabase(context: Context): CoinsDatabase {
         return Room.databaseBuilder(context, CoinsDatabase::class.java, "coins_database")
             .fallbackToDestructiveMigration()
             .build()
@@ -42,4 +43,4 @@ class RoomModule  {
 
 @Scope
 @Retention(AnnotationRetention.RUNTIME)
-public annotation class RoomScope{}
+public annotation class RoomScope {}

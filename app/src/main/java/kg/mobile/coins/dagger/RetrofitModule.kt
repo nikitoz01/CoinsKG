@@ -25,17 +25,17 @@ class RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideRetrofitClient (apiUrl: String, okHttpClient: OkHttpClient): Retrofit {
-            return Retrofit.Builder()
-                .baseUrl(apiUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
-                .build()
-        }
+    fun provideRetrofitClient(apiUrl: String, okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(apiUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+    }
 
     @Provides
     @Singleton
-    fun provideRestApi(retrofit: Retrofit): CoinsRestApi{
+    fun provideRestApi(retrofit: Retrofit): CoinsRestApi {
         return retrofit.create(CoinsRestApi::class.java)
     }
 
@@ -45,9 +45,10 @@ class RetrofitModule {
 
     @Singleton
     @Provides
-    fun restRepositoryProvide(restApi: CoinsRestApi, glideRepository: GlideRepository) = ApiRepository(restApi,glideRepository)
+    fun restRepositoryProvide(restApi: CoinsRestApi, glideRepository: GlideRepository) =
+        ApiRepository(restApi, glideRepository)
 }
 
 @Scope
 @Retention(AnnotationRetention.RUNTIME)
-public annotation class RetrofitScope{}
+public annotation class RetrofitScope {}

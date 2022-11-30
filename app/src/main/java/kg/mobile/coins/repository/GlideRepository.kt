@@ -14,7 +14,7 @@ import java.io.File
 import javax.inject.Inject
 
 
-class GlideRepository @Inject constructor (private val context: Context, apiURL: String) {
+class GlideRepository @Inject constructor(private val context: Context, apiURL: String) {
     private val glideRestApiUrl = "$apiURL/images?imageName="
 
     fun loadImage(coinsWithoutImage: List<Coin>): Flow<List<Coin>> = flow {

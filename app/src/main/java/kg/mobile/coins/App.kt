@@ -12,17 +12,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class App: Application(), AppComponentDependencies {
+class App : Application(), AppComponentDependencies {
 
     lateinit var appComponent: AppComponent
-    private set
+        private set
 
     override fun onCreate() {
         super.onCreate()
         appComponent = DaggerAppComponent
-              .builder()
-              .bindContext(this)
-              .build()
+            .builder()
+            .bindContext(this)
+            .build()
     }
 
     override val context: Context
@@ -30,19 +30,19 @@ class App: Application(), AppComponentDependencies {
 
 }
 
-public fun Context.circularProgressDrawable() : CircularProgressDrawable {
+public fun Context.circularProgressDrawable(): CircularProgressDrawable {
     val circularProgressDrawable = CircularProgressDrawable(this)
     circularProgressDrawable.strokeWidth = 5f
     circularProgressDrawable.centerRadius = 30f
     circularProgressDrawable.start()
-    return  circularProgressDrawable
+    return circularProgressDrawable
 }
 
-val Context.appComponent : AppComponent
-get() = when (this) {
-    is App -> appComponent
-    else -> this.applicationContext.appComponent
-}
+val Context.appComponent: AppComponent
+    get() = when (this) {
+        is App -> appComponent
+        else -> this.applicationContext.appComponent
+    }
 
 inline fun <T> Fragment.bind(
     source: Flow<T>,

@@ -6,6 +6,7 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import kg.mobile.coins.dagger.vmfactory.FragmentScope
 import kg.mobile.coins.repository.RoomRepository
 import kg.mobile.coins.room.model.Coin
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +16,9 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class CoinSearchViewModel @Inject constructor(private val repository: RoomRepository) :ViewModel() {
+@FragmentScope
+class CoinSearchViewModel @Inject constructor(private val repository: RoomRepository) :
+    ViewModel() {
 
     var coinSearchFlow: Flow<PagingData<Coin>>
 
@@ -41,7 +44,7 @@ class CoinSearchViewModel @Inject constructor(private val repository: RoomReposi
     }
 
     fun updateCoin(coin: Coin) = viewModelScope.launch(Dispatchers.IO) {
-            repository.updateCoin(coin)
+        repository.updateCoin(coin)
     }
 
 }

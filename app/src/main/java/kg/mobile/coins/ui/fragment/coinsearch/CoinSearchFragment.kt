@@ -20,11 +20,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-class CoinSearchFragment: Fragment(R.layout.fragment_coin_search) {
+class CoinSearchFragment : Fragment(R.layout.fragment_coin_search) {
 
     private var _coinSearchBinding: FragmentCoinSearchBinding? = null
     private val coinSearchBinding
-    get()=_coinSearchBinding!!
+        get() = _coinSearchBinding!!
 
     @Inject
     lateinit var factory: MultiViewModelFactory
@@ -44,8 +44,8 @@ class CoinSearchFragment: Fragment(R.layout.fragment_coin_search) {
     }
 
     override fun onAttach(context: Context) {
-        context.appComponent.inject(this)
         super.onAttach(context)
+        requireContext().appComponent.viewModelComponent().create().inject(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -53,7 +53,8 @@ class CoinSearchFragment: Fragment(R.layout.fragment_coin_search) {
 
         menu.findItem(R.id.app_bar_search).apply {
             (actionView as androidx.appcompat.widget.SearchView).apply {
-                setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                setOnQueryTextListener(object :
+                    androidx.appcompat.widget.SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         hideKeyboard()
                         println("submit")
@@ -70,25 +71,26 @@ class CoinSearchFragment: Fragment(R.layout.fragment_coin_search) {
 //                println("search")
 //            }
 
-        }
-        setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
-                return true
             }
+            setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+                override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                    return true
+                }
 
-            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-                hideKeyboard()
-                activity?.onBackPressed()
-                return true
-            }
-        })
+                override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                    hideKeyboard()
+                    activity?.onBackPressed()
+                    return true
+                }
+            })
         }
         super.onCreateOptionsMenu(menu, inflater)
     }
 
 
-    private fun hideKeyboard(){
-        val inputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    private fun hideKeyboard() {
+        val inputMethodManager =
+            context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
@@ -96,14 +98,15 @@ class CoinSearchFragment: Fragment(R.layout.fragment_coin_search) {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _coinSearchBinding = FragmentCoinSearchBinding.inflate(inflater,container,false)
+        _coinSearchBinding = FragmentCoinSearchBinding.inflate(inflater, container, false)
         val recyclerview = coinSearchBinding.coinSearchRecyclerView
         recyclerview.layoutManager = LinearLayoutManager(activity)
-        adapter = CoinAdapter ( { coin ->
-                findNavController().safeNavigate(CoinSearchFragmentDirections.
-                actionCoinSearchFragmentToCoinDetailFragment(coin.id))
-            },
-            {coin -> coinSearchViewModel.updateCoin(coin) }
+        adapter = CoinAdapter({ coin ->
+            findNavController().safeNavigate(
+                CoinSearchFragmentDirections.actionCoinSearchFragmentToCoinDetailFragment(coin.id)
+            )
+        },
+            { coin -> coinSearchViewModel.updateCoin(coin) }
         )
 
         recyclerview.adapter = adapter
@@ -118,7 +121,7 @@ class CoinSearchFragment: Fragment(R.layout.fragment_coin_search) {
 //        (activity as AppCompatActivity).supportActionBar?.title = "Поиск"
         coinSearchBinding.chipGroup.setOnCheckedStateChangeListener { _, i ->
             if (i.isNotEmpty()) when (i[0]) {
-                coinSearchBinding.firstChip.id ->  currentMode = 0
+                coinSearchBinding.firstChip.id -> currentMode = 0
                 coinSearchBinding.secondChip.id -> currentMode = 1
                 coinSearchBinding.thirdChip.id -> currentMode = 2
             } else coinSearchBinding.chipGroup.check(coinSearchBinding.firstChip.id)

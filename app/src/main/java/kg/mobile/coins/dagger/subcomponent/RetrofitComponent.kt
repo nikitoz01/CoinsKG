@@ -7,8 +7,8 @@ import kg.mobile.coins.dagger.RetrofitScope
 @RetrofitScope
 interface RetrofitComponent {
     @Subcomponent.Builder
-    interface Builder{
-        fun build():RetrofitComponent
+    interface Builder {
+        fun build(): RetrofitComponent
     }
 
 }

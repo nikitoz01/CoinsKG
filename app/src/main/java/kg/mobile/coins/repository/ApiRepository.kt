@@ -11,9 +11,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class ApiRepository @Inject constructor(private val restApi: CoinsRestApi,
-private val glideRepository: GlideRepository) {
-     fun getNewCategories(updateTime: Long): Flow<State<List<CategoryDto>>> = flow {
+class ApiRepository @Inject constructor(
+    private val restApi: CoinsRestApi,
+    private val glideRepository: GlideRepository
+) {
+    fun getNewCategories(updateTime: Long): Flow<State<List<CategoryDto>>> = flow {
         val state = try {
             emit(State.Loading)
             val response = restApi.getCategories(updateTime)
@@ -23,11 +25,12 @@ private val glideRepository: GlideRepository) {
         }
         emit(state)
     }
+
     fun getNewCoins(updateTime: Long): Flow<State<List<Coin>>> = flow {
         try {
             emit(State.Loading)
             val coinsFromApi = restApi.getCoins(updateTime)
-            glideRepository.loadImage(coinsFromApi.map{it.coinDtoToModel()}).collect {
+            glideRepository.loadImage(coinsFromApi.map { it.coinDtoToModel() }).collect {
                 emit(State.Success(it))
             }
         } catch (e: Exception) {

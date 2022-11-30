@@ -2,8 +2,10 @@ package kg.mobile.coins.ui.fragment.categorycoin
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import kg.mobile.coins.dagger.vmfactory.FragmentScope
 
-class CategoryCoinViewModel(private val state: SavedStateHandle): ViewModel() {
+@FragmentScope
+class CategoryCoinViewModel(private val state: SavedStateHandle) : ViewModel() {
 
     fun getParentId() = state.getLiveData<Int?>("parentId")
 

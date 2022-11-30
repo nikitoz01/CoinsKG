@@ -10,7 +10,7 @@ import kg.mobile.coins.room.model.Coin
 import kg.mobile.coins.room.model.Image
 
 @Database(entities = [Category::class, Coin::class, Image::class], version = 1)
-abstract class CoinsDatabase: RoomDatabase() {
+abstract class CoinsDatabase : RoomDatabase() {
 
     abstract fun getCategoryDao(): CategoryDao
 

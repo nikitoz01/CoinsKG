@@ -14,7 +14,8 @@ import javax.inject.Inject
 
 class RoomRepository @Inject constructor(
     private val categoryDao: CategoryDao,
-    private val coinDao: CoinDao) {
+    private val coinDao: CoinDao
+) {
 
     fun getAllCategories() = categoryDao.getAllCategories()
 
@@ -29,14 +30,21 @@ class RoomRepository @Inject constructor(
     suspend fun updateCoin(coins: List<Coin>) = coinDao.update(coins)
 
     fun getCategoriesByParentId(parentId: Int?) =
-        parentId?.let { categoryDao.getCategoriesByParentId(parentId)} ?: run {categoryDao.getMainCategories()}
+        parentId?.let { categoryDao.getCategoriesByParentId(parentId) }
+            ?: run { categoryDao.getMainCategories() }
 
-    private suspend fun getCoinsByCategoryId(categoryId: Int?, limit: Int, offset: Int)
-    = categoryId?.let { coinDao.getCoinsByCategoryId(categoryId, limit, offset)} ?: run {coinDao.getMainCoins(limit, offset)}
+    private suspend fun getCoinsByCategoryId(categoryId: Int?, limit: Int, offset: Int) =
+        categoryId?.let { coinDao.getCoinsByCategoryId(categoryId, limit, offset) }
+            ?: run { coinDao.getMainCoins(limit, offset) }
 
-    private suspend fun getCoins(searchBy: String, limit: Int, offset: Int) = coinDao.getCoins(searchBy, limit, offset)
-    private suspend fun getFavoriteCoins(searchBy: String, limit: Int, offset: Int) = coinDao.getFavoriteCoins(searchBy, limit, offset)
-    private suspend fun getInCollectionCoins(searchBy: String, limit: Int, offset: Int) = coinDao.getInCollectionCoins(searchBy, limit, offset)
+    private suspend fun getCoins(searchBy: String, limit: Int, offset: Int) =
+        coinDao.getCoins(searchBy, limit, offset)
+
+    private suspend fun getFavoriteCoins(searchBy: String, limit: Int, offset: Int) =
+        coinDao.getFavoriteCoins(searchBy, limit, offset)
+
+    private suspend fun getInCollectionCoins(searchBy: String, limit: Int, offset: Int) =
+        coinDao.getInCollectionCoins(searchBy, limit, offset)
 
     suspend fun isAnyCoinsExist() = coinDao.isAnyCoinsExist()
 
@@ -47,7 +55,7 @@ class RoomRepository @Inject constructor(
                 enablePlaceholders = false,
                 initialLoadSize = LOAD_SIZE
             ),
-            pagingSourceFactory = {CoinPagingSource(categoryId,::getCoinsByCategoryId) }
+            pagingSourceFactory = { CoinPagingSource(categoryId, ::getCoinsByCategoryId) }
         ).flow
     }
 
@@ -55,19 +63,21 @@ class RoomRepository @Inject constructor(
     //mode = 1 - Favorite
     //mode = 2 - inCollection
     fun getPagedCoins(searchBy: String, mode: Int = 0): Flow<PagingData<Coin>> {
-        val getCoins = when(mode){
+        val getCoins = when (mode) {
             0 -> ::getCoins
             1 -> ::getFavoriteCoins
             2 -> ::getInCollectionCoins
-            else -> {::getCoins}
+            else -> {
+                ::getCoins
+            }
         }
         return Pager(
             config = PagingConfig(
                 pageSize = LOAD_SIZE,
                 enablePlaceholders = false,
-                initialLoadSize =LOAD_SIZE
+                initialLoadSize = LOAD_SIZE
             ),
-            pagingSourceFactory = { CoinSearchPagingSource(searchBy,getCoins) }
+            pagingSourceFactory = { CoinSearchPagingSource(searchBy, getCoins) }
         ).flow
     }
 
@@ -76,7 +86,7 @@ class RoomRepository @Inject constructor(
     suspend fun getCategoryById(categoryId: Int) = categoryDao.getById(categoryId)
 
 
-    companion object{
+    companion object {
         const val LOAD_SIZE = 10
     }
 }
