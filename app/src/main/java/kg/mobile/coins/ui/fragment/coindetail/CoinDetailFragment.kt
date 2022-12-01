@@ -7,8 +7,8 @@ import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.Group
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -72,7 +72,7 @@ class CoinDetailFragment : DialogFragment(R.layout.fragment_coin_detail) {
         coin.apply {
             setInfo(binding.coinDetailNameTextView, name)
             binding.zenoTextView.apply {
-                setInfo(this, binding.zenoContainer, zenoId?.toString())
+                setInfo(this, binding.groupZeno, zenoId?.toString())
                 setTextColor(Color.BLUE)
                 paintFlags = Paint.UNDERLINE_TEXT_FLAG
                 setOnClickListener {
@@ -95,16 +95,18 @@ class CoinDetailFragment : DialogFragment(R.layout.fragment_coin_detail) {
                 .error(R.drawable.no_image)
                 .into(binding.coinDetailImageView)
 
-            setInfo(binding.yearTextView, binding.yearContainer, year)
-            setInfo(binding.sizeTextView, binding.sizeContainer, size)
-            setInfo(binding.weightTextView, binding.weightContainer, weight)
-            setInfo(binding.mintTextView, binding.mintContainer, mint)
-            setInfo(binding.estimateTextView, binding.estimateContainer, estimate)
-            setInfo(binding.rarityTextView, binding.rarityContainer, rarity)
-            setInfo(binding.denominationTextView, binding.denominationContainer, denomination)
-            setInfo(binding.metalTextView, binding.metalContainer, metal)
+            setInfo(binding.yearTextView, binding.groupYear, year)
+            setInfo(binding.sizeTextView, binding.groupSize, size)
+            setInfo(binding.weightTextView, binding.groupWeight, weight)
+            setInfo(binding.mintTextView, binding.groupMint, mint)
+            setInfo(binding.estimateTextView, binding.groupEstimate, estimate)
+            setInfo(binding.rarityTextView, binding.groupRarity, rarity)
+            setInfo(binding.denominationTextView, binding.groupDenomination, denomination)
+            setInfo(binding.metalTextView, binding.groupMetal, metal)
 
-            auctionURL.let {
+            if (auctionURL.isNullOrBlank()) {
+                binding.buttonToAuction.visibility = View.GONE
+            } else {
                 binding.buttonToAuction.apply {
                     setOnClickListener {
                         startActivity(
@@ -114,7 +116,6 @@ class CoinDetailFragment : DialogFragment(R.layout.fragment_coin_detail) {
                             )
                         )
                     }
-                    visibility = View.VISIBLE
                 }
             }
         }
@@ -127,10 +128,11 @@ class CoinDetailFragment : DialogFragment(R.layout.fragment_coin_detail) {
         }
     }
 
-    private fun setInfo(view: TextView, container: LinearLayout, info: String?) {
-        info?.let {
+    private fun setInfo(view: TextView, group: Group, info: String?) {
+        if (info.isNullOrBlank()){
+            group.visibility = View.GONE
+        } else {
             view.text = info
-            container.visibility = View.VISIBLE
         }
     }
 

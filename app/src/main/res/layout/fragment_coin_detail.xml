@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/background_ornament_scale"
@@ -23,10 +21,9 @@
 
         <ImageView
             android:id="@+id/coinDetailImageView"
-            android:layout_width="250dp"
-            android:layout_height="150dp"
-            android:padding="5dp">
-        </ImageView>
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:padding="5dp" />
 
     </androidx.cardview.widget.CardView>
 
@@ -37,8 +34,7 @@
         android:background="@drawable/ic_close_24"
         android:translationZ="2dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </ImageButton>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/coinDetailNameTextView"
@@ -53,297 +49,269 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/containerCoinDetailImageView"
         app:layout_constraintStart_toStartOf="@+id/containerCoinDetailImageView"
-        app:layout_constraintTop_toBottomOf="@+id/containerCoinDetailImageView">
-    </TextView>
+        app:layout_constraintTop_toBottomOf="@+id/containerCoinDetailImageView" />
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/zenoLabelTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Zeno:"
+        android:layout_marginTop="10dp"
+        android:textAlignment="textEnd"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/coinDetailNameTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/zenoTextView"/>
+
+    <TextView
+        android:id="@+id/zenoTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="@id/containerCoinDetailImageView"
-        app:layout_constraintStart_toStartOf="@+id/containerCoinDetailImageView"
-        app:layout_constraintTop_toBottomOf="@+id/coinDetailNameTextView">
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/zenoLabelTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/zenoLabelTextView"/>
 
-        <LinearLayout
-            android:id="@+id/zenoContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bottom_line"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:visibility="gone">
 
-            <TextView
-                android:id="@+id/zenoLabelTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Zeno:"
-                android:textAlignment="textEnd"
-                android:textSize="16sp">
-            </TextView>
+    <TextView
+        android:id="@+id/yearLabelTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Датировка:"
+        android:textAlignment="textEnd"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/zenoTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/yearTextView"/>
 
-            <TextView
-                android:id="@+id/zenoTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:textSize="16sp">
-            </TextView>
-        </LinearLayout>
+    <TextView
+        android:id="@+id/yearTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/yearLabelTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/yearLabelTextView"/>
 
-        <LinearLayout
-            android:id="@+id/yearContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bottom_line"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:visibility="gone">
+    <TextView
+        android:id="@+id/rarityLabelTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Редкость:"
+        android:textAlignment="textEnd"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/yearTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/rarityTextView"/>
 
-            <TextView
-                android:id="@+id/yearLabelTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Датировка:"
-                android:textAlignment="textEnd"
-                android:textSize="16sp">
-            </TextView>
+    <TextView
+        android:id="@+id/rarityTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/rarityLabelTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/rarityLabelTextView"/>
 
-            <TextView
-                android:id="@+id/yearTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:textSize="16sp">
-            </TextView>
-        </LinearLayout>
+    <TextView
+        android:id="@+id/estimateLabelTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="0.5"
+        android:text="Стоимость:"
+        android:textAlignment="textEnd"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/rarityTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/estimateTextView"/>
 
-        <LinearLayout
-            android:id="@+id/rarityContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bottom_line"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:visibility="gone">
+    <TextView
+        android:id="@+id/estimateTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="0.4"
+        android:layout_marginStart="10dp"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/estimateLabelTextView"
+        app:layout_constraintEnd_toEndOf="@id/buttonToAuction"
+        app:layout_constraintTop_toTopOf="@id/estimateLabelTextView"/>
 
-            <TextView
-                android:id="@+id/rarityLabelTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Редкость:"
-                android:textAlignment="textEnd"
-                android:textSize="16sp">
-        </TextView>
+    <ImageButton
+        android:id="@+id/buttonToAuction"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:background="@drawable/ic_arrow_forward_48"
+        app:layout_constraintHorizontal_weight="0.1"
+        app:layout_constraintStart_toEndOf="@id/estimateTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/estimateLabelTextView"/>
 
-            <TextView
-                android:id="@+id/rarityTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:textSize="16sp">
-            </TextView>
-        </LinearLayout>
+    <TextView
+        android:id="@+id/sizeLabelTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Размер:"
+        android:textAlignment="textEnd"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/estimateTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/sizeTextView"/>
 
-        <LinearLayout
-            android:id="@+id/estimateContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bottom_line"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:visibility="gone">
+    <TextView
+        android:id="@+id/sizeTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/sizeLabelTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/sizeLabelTextView"/>
 
-            <TextView
-                android:id="@+id/estimateLabelTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Стоимость:"
-                android:textAlignment="textEnd"
-                android:textSize="16sp">
-            </TextView>
+    <TextView
+        android:id="@+id/weightLabelTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Вес:"
+        android:textAlignment="textEnd"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/sizeTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/weightTextView"/>
 
-            <TextView
-                android:id="@+id/estimateTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:textSize="16sp">
-            </TextView>
+    <TextView
+        android:id="@+id/weightTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/weightLabelTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/weightLabelTextView"/>
 
-            <ImageButton
-                android:id="@+id/buttonToAuction"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@drawable/ic_arrow_forward_48"
-                android:visibility="gone">
-            </ImageButton>
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/sizeContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bottom_line"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:visibility="gone">
+    <TextView
+        android:id="@+id/denominationLabelTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Номинал:"
+        android:textAlignment="textEnd"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/weightTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/denominationTextView"/>
 
-            <TextView
-                android:id="@+id/sizeLabelTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Размер:"
-                android:textAlignment="textEnd"
-                android:textSize="16sp">
-            </TextView>
+    <TextView
+        android:id="@+id/denominationTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/denominationLabelTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/denominationLabelTextView"/>
 
-            <TextView
-                android:id="@+id/sizeTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:textSize="16sp">
-            </TextView>
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/weightContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bottom_line"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:visibility="gone">
+    <TextView
+        android:id="@+id/metalLabelTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Металл:"
+        android:textAlignment="textEnd"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/denominationTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/metalTextView"/>
 
-            <TextView
-                android:id="@+id/weightLabelTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Вес:"
-                android:textAlignment="textEnd"
-                android:textSize="16sp">
-            </TextView>
+    <TextView
+        android:id="@+id/metalTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/metalLabelTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/metalLabelTextView"/>
 
-            <TextView
-                android:id="@+id/weightTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:textSize="16sp">
-            </TextView>
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/denominationContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bottom_line"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:visibility="gone">
+    <TextView
+        android:id="@+id/mintLabelTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="МД:"
+        android:textAlignment="textEnd"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/metalTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/mintTextView"/>
 
-            <TextView
-                android:id="@+id/denominationLabelTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Номинал:"
-                android:textAlignment="textEnd"
-                android:textSize="16sp">
-            </TextView>
+    <TextView
+        android:id="@+id/mintTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/mintLabelTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/mintLabelTextView"/>
 
-            <TextView
-                android:id="@+id/denominationTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:textSize="16sp">
-            </TextView>
-        </LinearLayout>
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupZeno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="zenoLabelTextView,zenoTextView" />
 
-        <LinearLayout
-            android:id="@+id/metalContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bottom_line"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:visibility="gone">
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupYear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="yearLabelTextView,yearTextView" />
 
-            <TextView
-                android:id="@+id/metalLabelTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Металл:"
-                android:textAlignment="textEnd"
-                android:textSize="16sp">
-            </TextView>
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupRarity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="rarityLabelTextView,rarityTextView" />
 
-            <TextView
-                android:id="@+id/metalTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:textSize="16sp">
-            </TextView>
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/mintContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bottom_line"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:visibility="gone">
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupEstimate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="estimateLabelTextView,estimateTextView,buttonToAuction" />
 
-            <TextView
-                android:id="@+id/mintLabelTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="МД:"
-                android:textAlignment="textEnd"
-                android:textSize="16sp">
-            </TextView>
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="sizeLabelTextView,sizeTextView" />
 
-            <TextView
-                android:id="@+id/mintTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:textSize="16sp">
-            </TextView>
-        </LinearLayout>
-    </LinearLayout>
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="weightLabelTextView,weightTextView" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupDenomination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="denominationLabelTextView,denominationTextView" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupMetal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="metalLabelTextView,metalTextView" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupMint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="mintTextView,mintLabelTextView" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -119,7 +119,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 (activity as AppCompatActivity).supportActionBar?.show()
                 mainBinding.defaultFragmentContainerView.visibility = View.VISIBLE
             } else {
-                mainBinding.loadStateFrameLayout.visibility = View.VISIBLE
+                mainBinding.loadState.root.visibility = View.VISIBLE
             }
         }
 
