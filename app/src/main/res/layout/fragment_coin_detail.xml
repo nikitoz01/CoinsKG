@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/background_ornament_scale"
-    android:padding="10dp"
-    tools:context=".CoinDetailFragment">
+    android:padding="10dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/containerCoinDetailImageView"
@@ -25,7 +25,9 @@
             android:id="@+id/coinDetailImageView"
             android:layout_width="250dp"
             android:layout_height="150dp"
-            android:padding="5dp"></ImageView>
+            android:padding="5dp">
+        </ImageView>
+
     </androidx.cardview.widget.CardView>
 
     <ImageButton
@@ -35,7 +37,8 @@
         android:background="@drawable/ic_close_24"
         android:translationZ="2dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></ImageButton>
+        app:layout_constraintTop_toTopOf="parent">
+    </ImageButton>
 
     <TextView
         android:id="@+id/coinDetailNameTextView"
@@ -50,7 +53,8 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/containerCoinDetailImageView"
         app:layout_constraintStart_toStartOf="@+id/containerCoinDetailImageView"
-        app:layout_constraintTop_toBottomOf="@+id/containerCoinDetailImageView"></TextView>
+        app:layout_constraintTop_toBottomOf="@+id/containerCoinDetailImageView">
+    </TextView>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -80,7 +84,8 @@
                 android:layout_weight="1"
                 android:text="Zeno:"
                 android:textAlignment="textEnd"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp">
+            </TextView>
 
             <TextView
                 android:id="@+id/zenoTextView"
@@ -88,7 +93,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp">
+            </TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -108,7 +114,8 @@
                 android:layout_weight="1"
                 android:text="Датировка:"
                 android:textAlignment="textEnd"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp">
+            </TextView>
 
             <TextView
                 android:id="@+id/yearTextView"
@@ -116,7 +123,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp">
+            </TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -136,7 +144,8 @@
                 android:layout_weight="1"
                 android:text="Редкость:"
                 android:textAlignment="textEnd"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp">
+        </TextView>
 
             <TextView
                 android:id="@+id/rarityTextView"
@@ -144,7 +153,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp">
+            </TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -164,7 +174,8 @@
                 android:layout_weight="1"
                 android:text="Стоимость:"
                 android:textAlignment="textEnd"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp">
+            </TextView>
 
             <TextView
                 android:id="@+id/estimateTextView"
@@ -172,14 +183,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp">
+            </TextView>
 
             <ImageButton
                 android:id="@+id/buttonToAuction"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:background="@drawable/ic_arrow_forward_48"
-                android:visibility="gone"></ImageButton>
+                android:visibility="gone">
+            </ImageButton>
         </LinearLayout>
 
         <LinearLayout
@@ -199,7 +212,8 @@
                 android:layout_weight="1"
                 android:text="Размер:"
                 android:textAlignment="textEnd"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp">
+            </TextView>
 
             <TextView
                 android:id="@+id/sizeTextView"
@@ -207,7 +221,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp">
+            </TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -227,7 +242,8 @@
                 android:layout_weight="1"
                 android:text="Вес:"
                 android:textAlignment="textEnd"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp">
+            </TextView>
 
             <TextView
                 android:id="@+id/weightTextView"
@@ -235,7 +251,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp">
+            </TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -255,7 +272,8 @@
                 android:layout_weight="1"
                 android:text="Номинал:"
                 android:textAlignment="textEnd"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp">
+            </TextView>
 
             <TextView
                 android:id="@+id/denominationTextView"
@@ -263,7 +281,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp">
+            </TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -283,7 +302,8 @@
                 android:layout_weight="1"
                 android:text="Металл:"
                 android:textAlignment="textEnd"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp">
+            </TextView>
 
             <TextView
                 android:id="@+id/metalTextView"
@@ -291,7 +311,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp">
+            </TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -311,7 +332,8 @@
                 android:layout_weight="1"
                 android:text="МД:"
                 android:textAlignment="textEnd"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp">
+            </TextView>
 
             <TextView
                 android:id="@+id/mintTextView"
@@ -319,7 +341,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                android:textSize="16sp"></TextView>
+                android:textSize="16sp">
+            </TextView>
         </LinearLayout>
     </LinearLayout>
 

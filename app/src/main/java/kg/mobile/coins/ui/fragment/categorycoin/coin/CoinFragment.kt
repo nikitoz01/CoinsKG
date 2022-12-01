@@ -2,9 +2,7 @@ package kg.mobile.coins.ui.fragment.categorycoin.coin
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -46,12 +44,19 @@ class CoinFragment : Fragment(R.layout.fragment_coin) {
         requireContext().appComponent.viewModelComponent().create().inject(this)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
 
-        _coinBinding = FragmentCoinBinding.inflate(inflater, container, false)
+
+
+    override fun onDestroyView() {
+        _coinBinding = null
+        super.onDestroyView()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        _coinBinding = FragmentCoinBinding.bind(view)
+
         val recyclerview = coinBinding.coinRecyclerView
         recyclerview.layoutManager = LinearLayoutManager(activity)
         adapter = CoinAdapter({ coin ->
@@ -69,17 +74,7 @@ class CoinFragment : Fragment(R.layout.fragment_coin) {
             }
         )
         recyclerview.adapter = adapter
-        return coinBinding.root
-    }
 
-
-    override fun onDestroyView() {
-        _coinBinding = null
-        super.onDestroyView()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         parentViewModel.getParentId().observe(viewLifecycleOwner) {
             coinViewModel.getCoins(it)

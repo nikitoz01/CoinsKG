@@ -5,10 +5,9 @@
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".ui.fragment.MainFragment">
+    android:background="@color/background">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -25,21 +24,15 @@
                 android:layout_height="match_parent" />
         </FrameLayout>
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/mainScrollView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/background"
-            android:visibility="gone">
-
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/defaultFragmentContainerView"
                 android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:navGraph="@navigation/def_nav_graph"></androidx.fragment.app.FragmentContainerView>
+                app:navGraph="@navigation/def_nav_graph"
+                android:visibility="gone">
+            </androidx.fragment.app.FragmentContainerView>
 
-        </androidx.core.widget.NestedScrollView>
 
-    </LinearLayout>
+    </FrameLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

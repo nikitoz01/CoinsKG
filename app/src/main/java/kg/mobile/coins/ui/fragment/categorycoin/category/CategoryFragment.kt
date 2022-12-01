@@ -2,9 +2,7 @@ package kg.mobile.coins.ui.fragment.categorycoin.category
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -48,12 +46,12 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
     }
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
 
-        _categoryBinding = FragmentCategoryBinding.inflate(layoutInflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        _categoryBinding = FragmentCategoryBinding.bind(view)
+
         val recyclerview = categoryBinding.categoryRecyclerView
         recyclerview.layoutManager = LinearLayoutManager(activity)
 
@@ -67,12 +65,6 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
         }
 
         recyclerview.adapter = adapter
-        return categoryBinding.root
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         parentViewModel.getParentId().observe(viewLifecycleOwner) {
             categoryViewModel.getChildCategories(it)

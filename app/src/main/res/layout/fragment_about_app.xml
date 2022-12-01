@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".ui.fragment.AboutAppFragment">
+    android:background="@color/background">
 
     <TextView
         android:id="@+id/aboutAppTextView"
@@ -16,7 +15,8 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></TextView>
+        app:layout_constraintTop_toTopOf="parent">
+    </TextView>
 
     <LinearLayout
         android:id="@+id/coinMetalDesignationsContainer"
@@ -35,38 +35,44 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:text="Обозначения металла монет:"
-            android:textSize="16sp"></TextView>
+            android:textSize="16sp">
+        </TextView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="AE - медь"></TextView>
+            android:text="AE - медь">
+        </TextView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="AR - серебро"></TextView>
+            android:text="AR - серебро">
+        </TextView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="AV - золото"></TextView>
+            android:text="AV - золото">
+        </TextView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="EL - электр"></TextView>
+            android:text="EL - электр">
+        </TextView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:text="BR - бронза"></TextView>
+            android:text="BR - бронза">
+        </TextView>
     </LinearLayout>
 
     <LinearLayout
@@ -86,25 +92,29 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:text="Дополнительные обозначения каталога:"
-            android:textSize="16sp"></TextView>
+            android:textSize="16sp">
+        </TextView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="AH - дата по Исламскому календарю"></TextView>
+            android:text="AH - дата по Исламскому календарю">
+        </TextView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="МД - монетный двор"></TextView>
+            android:text="МД - монетный двор">
+        </TextView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="DH - каталог монет David Hartill"></TextView>
+            android:text="DH - каталог монет David Hartill">
+        </TextView>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -115,12 +125,14 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_star_outline"></ImageView>
+                android:src="@drawable/ic_star_outline">
+            </ImageView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="- в избранном"></TextView>
+                android:text="- в избранном">
+            </TextView>
 
         </LinearLayout>
 
@@ -134,12 +146,14 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_chest_outline"></ImageView>
+                android:src="@drawable/ic_chest_outline">
+            </ImageView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="- в коллекции"></TextView>
+                android:text="- в коллекции">
+            </TextView>
 
         </LinearLayout>
 
@@ -148,27 +162,27 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="30dp"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/additionalDesignationsContainer">
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Автор: Паршин Никита"
-            android:textSize="16sp"></TextView>
+            android:textSize="16sp">
+        </TextView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="©2022"
-            android:textSize="16sp"></TextView>
+            android:textSize="16sp">
+        </TextView>
 
     </LinearLayout>
 

@@ -6,9 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
@@ -46,14 +44,6 @@ class CoinDetailFragment : DialogFragment(R.layout.fragment_coin_detail) {
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentCoinDetailBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
@@ -66,6 +56,9 @@ class CoinDetailFragment : DialogFragment(R.layout.fragment_coin_detail) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        _binding = FragmentCoinDetailBinding.bind(view)
+
         val coinId: Int = navArgs.coinId
         coinDetailViewModel.getCoins(coinId)
         coinDetailViewModel.coinDetailLiveData.observe(viewLifecycleOwner) {

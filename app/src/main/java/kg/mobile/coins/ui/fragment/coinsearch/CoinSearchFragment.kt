@@ -2,7 +2,10 @@ package kg.mobile.coins.ui.fragment.coinsearch
 
 import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -58,11 +61,12 @@ class CoinSearchFragment : Fragment(R.layout.fragment_coin_search) {
         inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _coinSearchBinding = FragmentCoinSearchBinding.inflate(inflater, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        _coinSearchBinding = FragmentCoinSearchBinding.bind(view)
+
         val recyclerview = coinSearchBinding.coinSearchRecyclerView
         recyclerview.layoutManager = LinearLayoutManager(activity)
         adapter = CoinAdapter({ coin ->
@@ -75,13 +79,6 @@ class CoinSearchFragment : Fragment(R.layout.fragment_coin_search) {
 
         recyclerview.adapter = adapter
 
-
-        return coinSearchBinding.root
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 //        (activity as AppCompatActivity).supportActionBar?.title = "Поиск"
 
         (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {

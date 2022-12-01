@@ -3,7 +3,10 @@ package kg.mobile.coins.ui.fragment
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -79,13 +82,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     }
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _mainBinding = FragmentMainBinding.inflate(inflater, container, false)
-        return mainBinding.root
-    }
+//    override fun onCreateView(
+//        inflater: LayoutInflater, container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        _mainBinding = FragmentMainBinding.inflate(inflater, container, false)
+//        return mainBinding.root
+//    }
 
     override fun onDestroyView() {
         _mainBinding = null
@@ -95,6 +98,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        _mainBinding = FragmentMainBinding.bind(view)
 
         defaultNavHost =
             (childFragmentManager.findFragmentById(R.id.defaultFragmentContainerView) as NavHostFragment)
@@ -112,11 +117,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         mainViewModel.existsCheck.observe(viewLifecycleOwner) {
             if (it) {
                 (activity as AppCompatActivity).supportActionBar?.show()
-                mainBinding.mainScrollView.visibility = View.VISIBLE
+                mainBinding.defaultFragmentContainerView.visibility = View.VISIBLE
             } else {
                 mainBinding.loadStateFrameLayout.visibility = View.VISIBLE
             }
         }
+
         (requireActivity() as MenuHost).apply {
 
             addMenuProvider(object : MenuProvider {
