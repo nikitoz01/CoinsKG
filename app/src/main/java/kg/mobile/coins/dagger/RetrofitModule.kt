@@ -2,8 +2,8 @@ package kg.mobile.coins.dagger
 
 import dagger.Module
 import dagger.Provides
+import kg.mobile.coins.dagger.source.GlideDataSource
 import kg.mobile.coins.repository.ApiRepository
-import kg.mobile.coins.repository.GlideRepository
 import kg.mobile.coins.retrofit.CoinsRestApi
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -45,7 +45,7 @@ class RetrofitModule {
 
     @Singleton
     @Provides
-    fun restRepositoryProvide(restApi: CoinsRestApi, glideRepository: GlideRepository) =
+    fun restRepositoryProvide(restApi: CoinsRestApi, glideRepository: GlideDataSource) =
         ApiRepository(restApi, glideRepository)
 }
 
