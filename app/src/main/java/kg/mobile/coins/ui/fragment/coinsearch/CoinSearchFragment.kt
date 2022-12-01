@@ -4,8 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,7 +42,6 @@ class CoinSearchFragment : Fragment(R.layout.fragment_coin_search) {
     private var currentQuery: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
     }
 
@@ -48,44 +50,6 @@ class CoinSearchFragment : Fragment(R.layout.fragment_coin_search) {
         requireContext().appComponent.viewModelComponent().create().inject(this)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.findItem(R.id.app_bar_info).isVisible = false
-
-        menu.findItem(R.id.app_bar_search).apply {
-            (actionView as androidx.appcompat.widget.SearchView).apply {
-                setOnQueryTextListener(object :
-                    androidx.appcompat.widget.SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(query: String?): Boolean {
-                        hideKeyboard()
-                        println("submit")
-                        return true
-                    }
-
-                    override fun onQueryTextChange(newText: String?): Boolean {
-                        currentQuery = newText
-                        coinSearchViewModel.setSearchBy(newText + "", currentMode)
-                        return true
-                    }
-                })
-//            setOnSearchClickListener {
-//                println("search")
-//            }
-
-            }
-            setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-                override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
-                    return true
-                }
-
-                override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-                    hideKeyboard()
-                    activity?.onBackPressed()
-                    return true
-                }
-            })
-        }
-        super.onCreateOptionsMenu(menu, inflater)
-    }
 
 
     private fun hideKeyboard() {
@@ -119,6 +83,50 @@ class CoinSearchFragment : Fragment(R.layout.fragment_coin_search) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        (activity as AppCompatActivity).supportActionBar?.title = "Поиск"
+
+        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
+
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menu.findItem(R.id.app_bar_info).isVisible = false
+
+                menu.findItem(R.id.app_bar_search).apply {
+                    (actionView as androidx.appcompat.widget.SearchView).apply {
+                        setOnQueryTextListener(object :
+                            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                            override fun onQueryTextSubmit(query: String?): Boolean {
+                                hideKeyboard()
+                                println("submit")
+                                return true
+                            }
+
+                            override fun onQueryTextChange(newText: String?): Boolean {
+                                currentQuery = newText
+                                coinSearchViewModel.setSearchBy(newText + "", currentMode)
+                                return true
+                            }
+                        })
+
+                    }
+                    setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+                        override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                            return true
+                        }
+
+                        override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                            hideKeyboard()
+                            requireActivity().onBackPressed()
+                            return true
+                        }
+                    })
+                }
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return true
+            }
+
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
         coinSearchBinding.chipGroup.setOnCheckedStateChangeListener { _, i ->
             if (i.isNotEmpty()) when (i[0]) {
                 coinSearchBinding.firstChip.id -> currentMode = 0
