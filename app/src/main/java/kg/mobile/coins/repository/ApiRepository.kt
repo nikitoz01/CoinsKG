@@ -1,5 +1,6 @@
 package kg.mobile.coins.repository
 
+import kg.mobile.coins.dagger.source.GlideDataSource
 import kg.mobile.coins.model.State
 import kg.mobile.coins.retrofit.CoinsRestApi
 import kg.mobile.coins.retrofit.dto.CategoryDto
@@ -13,7 +14,7 @@ import javax.inject.Inject
 
 class ApiRepository @Inject constructor(
     private val restApi: CoinsRestApi,
-    private val glideRepository: GlideRepository
+    private val glideDataSource: GlideDataSource
 ) {
     fun getNewCategories(updateTime: Long): Flow<State<List<CategoryDto>>> = flow {
         val state = try {
@@ -30,7 +31,7 @@ class ApiRepository @Inject constructor(
         try {
             emit(State.Loading)
             val coinsFromApi = restApi.getCoins(updateTime)
-            glideRepository.loadImage(coinsFromApi.map { it.coinDtoToModel() }).collect {
+            glideDataSource.loadImage(coinsFromApi.map { it.coinDtoToModel() }).collect {
                 emit(State.Success(it))
             }
         } catch (e: Exception) {

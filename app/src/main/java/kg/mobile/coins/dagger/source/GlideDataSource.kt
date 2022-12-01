@@ -1,4 +1,4 @@
-package kg.mobile.coins.repository
+package kg.mobile.coins.dagger.source
 
 import android.content.Context
 import com.bumptech.glide.Glide
@@ -14,7 +14,7 @@ import java.io.File
 import javax.inject.Inject
 
 
-class GlideRepository @Inject constructor(private val context: Context, apiURL: String) {
+class GlideDataSource @Inject constructor(private val context: Context, apiURL: String) {
     private val glideRestApiUrl = "$apiURL/images?imageName="
 
     fun loadImage(coinsWithoutImage: List<Coin>): Flow<List<Coin>> = flow {
