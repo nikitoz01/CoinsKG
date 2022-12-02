@@ -217,7 +217,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                             categoryStateFlow.value is State.Success
                 }) {
                 mainBinding.swipeRefreshLayout.isRefreshing = false
-                if ((this.categoryStateFlow.value as State.Success).value.isEmpty() ||
+                if ((this.categoryStateFlow.value as State.Success).value.isNotEmpty() ||
                     (this.coinStateFlow.value as State.Success).value.isNotEmpty()
                 ) {
                     findNavController().apply {
