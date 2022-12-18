@@ -55,20 +55,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         super.onAttach(context)
 
         requireContext().appComponent.viewModelComponent().create().inject(this)
-
-        val backCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (defaultNavHost.childFragmentManager.backStackEntryCount > 0) {
-                    defaultNavHost.findNavController().popBackStack()
-                    //  if(isSearchActive) defaultNavHost.findNavController().popBackStack()
-                    isSearchActive = false
-                } else {
-                    parentFragmentManager.popBackStack()
-                    requireActivity().finish()
-                }
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(this, backCallback)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -104,9 +90,22 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         defaultNavHost =
             (childFragmentManager.findFragmentById(R.id.defaultFragmentContainerView) as NavHostFragment)
 
+        val backCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (defaultNavHost.childFragmentManager.backStackEntryCount > 0) {
+                    defaultNavHost.findNavController().popBackStack()
+                    //  if(isSearchActive) defaultNavHost.findNavController().popBackStack()
+                    isSearchActive = false
+                } else {
+                    requireActivity().finish()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, backCallback)
+
         val alreadyUpdated: Boolean = arguments?.let {
             MainFragmentArgs.fromBundle(it).alreadyUpdated
-        }!!
+        }?: false
 
         mainViewModel.isAnyCoinsExists()
 
@@ -116,7 +115,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         mainViewModel.existsCheck.observe(viewLifecycleOwner) {
             if (it) {
-                (activity as AppCompatActivity).supportActionBar?.show()
+                (requireActivity() as AppCompatActivity).supportActionBar?.show()
                 mainBinding.defaultFragmentContainerView.visibility = View.VISIBLE
             } else {
                 mainBinding.loadState.root.visibility = View.VISIBLE
@@ -151,7 +150,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                     }
                 }
 
-            }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+            }, viewLifecycleOwner, Lifecycle.State.CREATED)
         }
 
 
@@ -172,15 +171,14 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                             is State.Loading -> {
                                 Log.d("NewCategories", " LOADINGGG ")
                             }
-                            else -> {}
+                       }
                         }
                     }
-                }
+
                 launch {
                     mainViewModel.coinStateFlow.collect { viewState ->
                         when (viewState) {
                             is State.Fail -> {
-                                //  mainViewModel.cancelLoad()
                                 mainBinding.swipeRefreshLayout.isRefreshing = false
                                 Log.e("NewCoins", "FAILLLLL ${viewState.exception}")
                                 Toast.makeText(
@@ -196,7 +194,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                             is State.Loading -> {
                                 Log.d("NewsCoins", "LOADINGGG ")
                             }
-                            else -> {}
                         }
                     }
                 }

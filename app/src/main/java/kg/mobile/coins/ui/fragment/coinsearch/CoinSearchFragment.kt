@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.MenuItem.OnActionExpandListener
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.MenuHost
@@ -41,9 +42,6 @@ class CoinSearchFragment : Fragment(R.layout.fragment_coin_search) {
         factory
     }
 
-    private var currentMode = 0
-    private var currentQuery: String? = ""
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -52,7 +50,6 @@ class CoinSearchFragment : Fragment(R.layout.fragment_coin_search) {
         super.onAttach(context)
         requireContext().appComponent.viewModelComponent().create().inject(this)
     }
-
 
 
     private fun hideKeyboard() {
@@ -64,7 +61,6 @@ class CoinSearchFragment : Fragment(R.layout.fragment_coin_search) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         _coinSearchBinding = FragmentCoinSearchBinding.bind(view)
 
         val recyclerview = coinSearchBinding.coinSearchRecyclerView
@@ -79,58 +75,61 @@ class CoinSearchFragment : Fragment(R.layout.fragment_coin_search) {
 
         recyclerview.adapter = adapter
 
-//        (activity as AppCompatActivity).supportActionBar?.title = "Поиск"
 
         (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
 
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menu.findItem(R.id.app_bar_info).isVisible = false
 
+
                 menu.findItem(R.id.app_bar_search).apply {
                     (actionView as androidx.appcompat.widget.SearchView).apply {
+
+                        expandActionView()
+
                         setOnQueryTextListener(object :
                             androidx.appcompat.widget.SearchView.OnQueryTextListener {
                             override fun onQueryTextSubmit(query: String?): Boolean {
-                                hideKeyboard()
-                                println("submit")
-                                return true
+//                                hideKeyboard()
+                                return false
                             }
 
                             override fun onQueryTextChange(newText: String?): Boolean {
-                                currentQuery = newText
-                                coinSearchViewModel.setSearchBy(newText + "", currentMode)
+                                coinSearchViewModel.updateSearchBy(newText+"")
                                 return true
                             }
                         })
 
-                    }
-                    setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-                        override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
-                            return true
-                        }
 
-                        override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-                            hideKeyboard()
-                            requireActivity().onBackPressed()
-                            return true
-                        }
-                    })
+                        setOnActionExpandListener(object : OnActionExpandListener{
+                            override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+                                return true
+                            }
+
+                            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                                requireActivity().onBackPressedDispatcher.onBackPressed()
+                                return true
+                            }
+
+                        })
+
+                    }
+//
                 }
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return true
+                return false
             }
 
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        coinSearchBinding.chipGroup.setOnCheckedStateChangeListener { _, i ->
-            if (i.isNotEmpty()) when (i[0]) {
-                coinSearchBinding.firstChip.id -> currentMode = 0
-                coinSearchBinding.secondChip.id -> currentMode = 1
-                coinSearchBinding.thirdChip.id -> currentMode = 2
-            } else coinSearchBinding.chipGroup.check(coinSearchBinding.firstChip.id)
-            coinSearchViewModel.setSearchBy(currentQuery + "", currentMode)
+        coinSearchBinding.chipGroup.setOnCheckedStateChangeListener { group, checkedIds  ->
+            when (checkedIds[0]) {
+                coinSearchBinding.firstChip.id -> coinSearchViewModel.updateMode(0)
+                coinSearchBinding.secondChip.id -> coinSearchViewModel.updateMode(1)
+                coinSearchBinding.thirdChip.id -> coinSearchViewModel.updateMode(2)
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -146,3 +145,4 @@ class CoinSearchFragment : Fragment(R.layout.fragment_coin_search) {
     }
 
 }
+

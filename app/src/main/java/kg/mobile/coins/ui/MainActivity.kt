@@ -2,9 +2,11 @@ package kg.mobile.coins.ui
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.MenuProvider
 import kg.mobile.coins.R
 
 
@@ -16,26 +18,31 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.hide()
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        menu.findItem(R.id.app_bar_search).apply {
-            (actionView as androidx.appcompat.widget.SearchView).apply {
-                queryHint = "Введите ключевую фразу..."
-            }
-        }
-        return true
-    }
+        addMenuProvider(object : MenuProvider{
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
+
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.main_menu, menu)
+                menu.findItem(R.id.app_bar_search).apply {
+                    (actionView as androidx.appcompat.widget.SearchView).apply {
+                        queryHint = "Введите ключевую фразу..."
+                    }
+                }
             }
-        }
-        return super.onOptionsItemSelected(item)
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    android.R.id.home -> {
+                        onBackPressedDispatcher.onBackPressed()
+                        return true
+                    }
+                    else -> false
+                }
+            }
+
+        })
+
     }
 
 

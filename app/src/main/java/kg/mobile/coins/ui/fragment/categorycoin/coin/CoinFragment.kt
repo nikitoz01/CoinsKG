@@ -23,7 +23,7 @@ import javax.inject.Inject
 class CoinFragment : Fragment(R.layout.fragment_coin) {
 
     private var _coinBinding: FragmentCoinBinding? = null
-    val coinBinding
+    private val coinBinding
         get() = _coinBinding!!
 
     @Inject
@@ -34,10 +34,6 @@ class CoinFragment : Fragment(R.layout.fragment_coin) {
     private val parentViewModel: CategoryCoinViewModel by viewModels({ requireParentFragment() })
 
     private lateinit var adapter: CoinAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -76,8 +72,8 @@ class CoinFragment : Fragment(R.layout.fragment_coin) {
         recyclerview.adapter = adapter
 
 
-        parentViewModel.getParentId().observe(viewLifecycleOwner) {
-            coinViewModel.getCoins(it)
+        parentViewModel.getParentId().observe(viewLifecycleOwner) { parent ->
+            coinViewModel.getCoins(parent)
 
             lifecycleScope.launch(Dispatchers.IO) {
                 coinViewModel.coinFlow!!.collectLatest {

@@ -70,10 +70,10 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
             categoryViewModel.getChildCategories(it)
             it?.let { categoryViewModel.getCategory(it) }
         }
+
         parentViewModel.getCategoryName().observe(viewLifecycleOwner) {
-            it?.let {
-                (activity as AppCompatActivity).supportActionBar?.title = it
-            } ?: run { (activity as AppCompatActivity).supportActionBar?.title = "CoinsKG" }
+            if(it != null) (activity as AppCompatActivity).supportActionBar?.title = it
+            else  (activity as AppCompatActivity).supportActionBar?.title = "CoinsKG"
         }
 
         categoryViewModel.categoriesChildLiveData.observe(viewLifecycleOwner) {
@@ -81,7 +81,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
                 categoryBinding.titleCategoryTextView.visibility = View.GONE
                 categoryBinding.categoryRecyclerView.visibility = View.GONE
             }
-            adapter.setList(it)
+            adapter.submitList(it)
         }
 
         categoryViewModel.categoryLiveData.observe(viewLifecycleOwner) {

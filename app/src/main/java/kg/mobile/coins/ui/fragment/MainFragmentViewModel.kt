@@ -14,7 +14,7 @@ import kg.mobile.coins.util.categoryDtoToModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,14 +25,13 @@ class MainFragmentViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
-    private val _categoryStateFlow: MutableStateFlow<State<List<CategoryDto>>?> =
-        MutableStateFlow(null)
-    val categoryStateFlow: StateFlow<State<List<CategoryDto>>?>
-        get() = _categoryStateFlow
+    private val _categoryStateFlow: MutableStateFlow<State<List<CategoryDto>>> =
+        MutableStateFlow(State.Loading)
+    val categoryStateFlow = _categoryStateFlow.asStateFlow()
 
-    private val _coinStateFlow: MutableStateFlow<State<List<Coin>>?> = MutableStateFlow(null)
-    val coinStateFlow: StateFlow<State<List<Coin>>?>
-        get() = _coinStateFlow
+    private val _coinStateFlow: MutableStateFlow<State<List<Coin>>> =
+        MutableStateFlow(State.Loading)
+    val coinStateFlow = _coinStateFlow.asStateFlow()
 
 
     private var categoryJob: Job? = null

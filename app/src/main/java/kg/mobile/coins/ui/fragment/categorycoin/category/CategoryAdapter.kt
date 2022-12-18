@@ -2,13 +2,14 @@ package kg.mobile.coins.ui.fragment.categorycoin.category
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kg.mobile.coins.databinding.ItemCategoryBinding
 import kg.mobile.coins.room.model.Category
 
 class CategoryAdapter(private val itemClick: ((Category) -> Unit)) :
-    RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
-    private var categoriesList: List<Category> = listOf()
+    ListAdapter<Category, CategoryAdapter.CategoryViewHolder>(CategoryDiffCallback()) {
 
     inner class CategoryViewHolder(val binding: ItemCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -27,7 +28,7 @@ class CategoryAdapter(private val itemClick: ((Category) -> Unit)) :
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         with(holder) {
-            with(categoriesList[position]) {
+            with(currentList[position]) {
                 binding.categoryNameTextView.text = name
                 binding.categoryPeriodTextView.text = period
                 binding.categoryCardView.setOnClickListener {
@@ -37,11 +38,18 @@ class CategoryAdapter(private val itemClick: ((Category) -> Unit)) :
         }
     }
 
-    override fun getItemCount() = categoriesList.size
+    override fun getItemCount() = currentList.size
 
-    fun setList(list: List<Category>) {
-        categoriesList = list
-        notifyDataSetChanged()
+
+
+    class CategoryDiffCallback(): DiffUtil.ItemCallback<Category>() {
+        override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
+            return (oldItem.id == newItem.id)
+        }
+
+        override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean {
+            return oldItem == newItem
+        }
+
     }
-
 }

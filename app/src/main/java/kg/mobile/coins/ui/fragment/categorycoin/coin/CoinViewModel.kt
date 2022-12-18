@@ -17,7 +17,8 @@ class CoinViewModel @Inject constructor(private val repository: RoomRepository) 
     var coinFlow: Flow<PagingData<Coin>>? = null
 
     fun getCoins(categoryId: Int?) {
-        coinFlow = repository.getPagedCoinsByCategoryId(categoryId).cachedIn(viewModelScope)
+        coinFlow = repository.getPagedCoinsByCategoryId(categoryId)
+            .cachedIn(viewModelScope)
     }
 
     fun updateCoin(coin: Coin) = viewModelScope.launch(Dispatchers.IO) {

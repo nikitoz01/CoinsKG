@@ -18,10 +18,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class CoinAdapter(private val itemClick: (Coin) -> Unit, private val updateCoin: (Coin) -> Unit) :
-    PagingDataAdapter<Coin, CoinAdapter.CoinViewHolder>(
-        CoinsDiffCallback()
-    ) {
+class CoinAdapter(private val itemClick: (Coin) -> Unit,
+                  private val updateCoin: (Coin) -> Unit) :
+    PagingDataAdapter<Coin, CoinAdapter.CoinViewHolder>(CoinsDiffCallback()) {
 
     inner class CoinViewHolder(val binding: ItemCoinBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -39,7 +38,7 @@ class CoinAdapter(private val itemClick: (Coin) -> Unit, private val updateCoin:
 
     override fun onBindViewHolder(holder: CoinViewHolder, position: Int) {
         with(holder) {
-            with(getItem(position) ?: return) {
+            with(getItem(position) ?: return) coin@ {
                 binding.coinCardView.setOnClickListener {
                     itemClick.invoke(this)
                 }
@@ -59,7 +58,7 @@ class CoinAdapter(private val itemClick: (Coin) -> Unit, private val updateCoin:
                     setOnClickListener {
                         isFavorite = !isFavorite
                         checkToggle(this, isFavorite, R.drawable.ic_star)
-                        updateCoin.invoke(this@with)
+                        updateCoin(this@coin)
                     }
                     checkToggle(this, isFavorite, R.drawable.ic_star)
                 }
@@ -67,7 +66,7 @@ class CoinAdapter(private val itemClick: (Coin) -> Unit, private val updateCoin:
                     setOnClickListener {
                         isInCollection = !isInCollection
                         checkToggle(this, isInCollection, R.drawable.ic_chest)
-                        updateCoin.invoke(this@with)
+                        updateCoin(this@coin)
                     }
                     checkToggle(this, isInCollection, R.drawable.ic_chest)
                 }
