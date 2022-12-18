@@ -3,14 +3,12 @@ package kg.mobile.coins.room.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import org.jetbrains.annotations.NotNull
 
 @Entity(tableName = "coin")
 data class Coin(
     @PrimaryKey
     val id: Int,
     var categoryId: Int?,
-    @NotNull
     var name: String,
     var zenoId: Int?,
     var imageUrl: String,

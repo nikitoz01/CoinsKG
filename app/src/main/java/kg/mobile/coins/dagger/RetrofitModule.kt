@@ -41,7 +41,7 @@ class RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideApiUrl() = "http://192.168.1.103:8081"
+    fun provideApiUrl() = "http://192.168.1.101:8081"
 
     @Singleton
     @Provides

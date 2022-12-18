@@ -29,9 +29,11 @@ class RoomRepository @Inject constructor(
     suspend fun updateCoin(coin: Coin) = coinDao.update(coin)
     suspend fun updateCoin(coins: List<Coin>) = coinDao.update(coins)
 
-    fun getCategoriesByParentId(parentId: Int?) =
-        parentId?.let { categoryDao.getCategoriesByParentId(parentId) }
-            ?: run { categoryDao.getMainCategories() }
+    fun getCategoriesByParentId(parentId: Int?): Flow<List<Category>> {
+        println("category leak")
+        return if (parentId != null) categoryDao.getCategoriesByParentId(parentId)
+        else categoryDao.getMainCategories()
+    }
 
     private suspend fun getCoinsByCategoryId(categoryId: Int?, limit: Int, offset: Int) =
         categoryId?.let { coinDao.getCoinsByCategoryId(categoryId, limit, offset) }
